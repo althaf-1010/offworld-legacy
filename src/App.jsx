@@ -88,14 +88,20 @@ function App() {
               </div>
 
               <figure className="mission-image">
-                <img
-                  src={mission.image}
-                  alt={mission.imageTitle}
-                  width={mission.imageWidth}
-                  height={mission.imageHeight}
-                  loading="lazy"
-                  decoding="async"
-                />
+                {mission.image ? (
+                  <img
+                    src={mission.image}
+                    alt={mission.imageTitle}
+                    width={mission.imageWidth}
+                    height={mission.imageHeight}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="image-placeholder">
+                    <span>IMAGE PENDING SOURCING</span>
+                  </div>
+                )}
                 <figcaption>
                   NASA IMAGE / {mission.imageId}
                 </figcaption>

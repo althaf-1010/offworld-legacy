@@ -588,6 +588,18 @@ footer {
   transition: transform 0.5s ease;
 }
 
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+  font: 9px var(--mono);
+  letter-spacing: 1.5px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
 .mission-card:hover .mission-image img {
   transform: scale(1.04);
 }

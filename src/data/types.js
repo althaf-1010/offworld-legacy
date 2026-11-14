@@ -37,9 +37,9 @@
  * Media asset for equipment record.
  *
  * @typedef {Object} MediaAsset
- * @property {string} src - Local optimized WebP image path
- * @property {number} width - Intrinsic image width in pixels
- * @property {number} height - Intrinsic image height in pixels
+ * @property {string | null} src - Local optimized WebP image path (null if awaiting local sourcing)
+ * @property {number | null} width - Intrinsic image width in pixels (null if unsourced)
+ * @property {number | null} height - Intrinsic image height in pixels (null if unsourced)
  * @property {string} nasaId - Official NASA image record ID
  * @property {string} title - Archival image title
  * @property {string} date - Capture or archive release date
@@ -61,7 +61,7 @@
  *
  * @typedef {Object} EquipmentIdentity
  * @property {string} name - Specific equipment or payload left behind
- * @property {"Lunar lander" | "Mars rover" | "Science instruments" | "Lunar rover" | "Descent stage"} type - Equipment category
+ * @property {"Lunar lander" | "Mars rover" | "Science instruments" | "Lunar rover" | "Mars lander" | "Descent stage"} type - Equipment category
  * @property {string} [designation] - Hardware designation or serial
  */
 
@@ -92,9 +92,9 @@
  * @property {string} year - Operational period (matches existing UI)
  * @property {string} type - Equipment type (matches existing UI)
  * @property {string} status - Operational status (matches existing UI)
- * @property {string} image - Image path (matches existing UI)
- * @property {number} imageWidth - Image width (matches existing UI)
- * @property {number} imageHeight - Image height (matches existing UI)
+ * @property {string | null} image - Image path (matches existing UI)
+ * @property {number | null} imageWidth - Image width (matches existing UI)
+ * @property {number | null} imageHeight - Image height (matches existing UI)
  * @property {string} imageId - NASA Image ID (matches existing UI)
  * @property {string} imageTitle - NASA Image title (matches existing UI)
  * @property {string} imageDate - Image date (matches existing UI)

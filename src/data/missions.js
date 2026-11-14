@@ -315,6 +315,361 @@ export const missions = [
     imageDate: "November 19, 1969",
     imageSource: "https://images.nasa.gov/details/as12-47-6918",
   },
+  {
+    id: "M-004",
+    mission: {
+      name: "Apollo 15",
+      program: "Apollo Program",
+      spacecraftId: "1971-063C",
+      launchDate: "1971-07-26",
+    },
+    equipment: {
+      name: "Apollo 15 Lunar Roving Vehicle",
+      type: "Lunar rover",
+      designation: "LRV-1",
+    },
+    destination: "Moon",
+    landingDate: null,
+    deploymentDate: "1971-07-31",
+    operationalPeriod: "1971",
+    operationalStatus: "Inactive",
+    physicalDisposition:
+      "Parked at the Hadley-Apennine VIP site approximately 160 meters east of the Falcon Lunar Module descent stage. The rover chassis and wheels remain in place on the lunar regolith along with the attached Lunar Communications Relay Unit (LCRU) and Ground-Controlled Television Assembly (GCTA). Decades later, the resting site was resolved from lunar orbit by the Lunar Reconnaissance Orbiter Camera (LROC).",
+    location: {
+      siteName: "Hadley-Apennine (VIP site, east of Falcon LM descent stage)",
+      coordinates: {
+        latitude: 26.13174,
+        longitude: 3.63803,
+        display: "26.13° N, 3.64° E (Mean Earth/Polar Axis, LROC)",
+      },
+    },
+    events: [
+      {
+        type: "launch",
+        date: "1971-07-26",
+        description:
+          "Launched aboard a Saturn V (SA-510) rocket from Kennedy Space Center LC-39A.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+      },
+      {
+        type: "landing",
+        date: "1971-07-30",
+        description:
+          "Apollo 15 Lunar Module Falcon carrying LRV-1 touched down at Hadley-Apennine at landing coordinates 26.13239° N, 3.63330° E (separate from the rover's final resting position).",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+      },
+      {
+        type: "deployment",
+        date: "1971-07-31",
+        description:
+          "Astronauts David Scott and James Irwin deployed LRV-1 from Falcon's descent stage Quad 1, initiating the first crewed roving operations on lunar soil.",
+        reference: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_15/surface_opp/",
+      },
+      {
+        type: "milestone",
+        date: "1971-08-02",
+        description:
+          "Commander David Scott parked LRV-1 at the final VIP site (~160 m east of the LM) to allow the Ground-Controlled Television Assembly (GCTA) to televise the ascent stage liftoff.",
+        reference: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_15/surface_opp/",
+      },
+      {
+        type: "contact_loss",
+        date: "1971-08-05",
+        description:
+          "Failure of the LCRU/GCTA television communications system (not a failure or last communication of the LRV itself). NASA Apollo 15 mission commentary dated August 6, 1971, reports that the LCRU was switched on the previous day (inferred August 5, 1971) and operated for approximately 13 minutes before its downlink failed; the cause remains undetermined, with an unconfirmed circuit-breaker problem suggested.",
+        reference: "https://ntrs.nasa.gov/citations/19720008580",
+      },
+    ],
+    description:
+      "The first crewed rover driven on the Moon, vastly expanding astronauts' exploratory range during Apollo 15.",
+    legacy:
+      "LRV-1 traversed 27.8 km across the Hadley-Apennine terrain, enabling the collection of 77 kg of lunar samples—including the ancient 4.1-billion-year-old Genesis Rock—and proving mobility systems for extraterrestrial exploration.",
+    media: {
+      src: null,
+      width: null,
+      height: null,
+      nasaId: "AS15-88-11901",
+      title: "Apollo 15 Lunar Roving Vehicle parked at the VIP site",
+      date: "August 2, 1971",
+      sourceUrl: "https://images.nasa.gov/details/as15-88-11901",
+    },
+    references: [
+      {
+        label: "NASA NSSDCA Master Catalog: Apollo 15 LM / ALSEP",
+        url: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+        claim: "Spacecraft mission parameters and Lunar Module Falcon catalog identifier 1971-063C (separate from rover equipment designation LRV-1).",
+        nssdcId: "1971-063C",
+      },
+      {
+        label: "NASA Images Archive Record AS15-88-11901",
+        url: "https://images.nasa.gov/details/as15-88-11901",
+        claim: "Surface photograph of LRV-1 at its final parking location taken by Commander David Scott at the conclusion of EVA-3 (distinct from later orbital imagery).",
+      },
+      {
+        label: "NASA LROC Observation: Apollo 15 Landing Site",
+        url: "https://www.lroc.asu.edu/featured_sites/view_site/4",
+        claim: "Orbital imagery from the Lunar Reconnaissance Orbiter Camera (LROC) confirming the LRV-1 VIP-site parking position (26.13174° N, 3.63803° E) in the Mean Earth/Polar Axis system.",
+      },
+      {
+        label: "NASA MSC Apollo 15 Mission Report (NASA-TM-X-67991 / MSC-05161)",
+        url: "https://ntrs.nasa.gov/citations/19720008580",
+        claim: "Documentation of LRV-1 GCTA television liftoff coverage and subsequent LCRU/GCTA television communications system downlink failure.",
+      },
+    ],
+
+    // Backward-compatibility properties for existing UI components
+    name: "Apollo 15 Lunar Roving Vehicle (LRV-1)",
+    year: "1971",
+    type: "Lunar rover",
+    status: "Inactive",
+    image: null,
+    imageWidth: null,
+    imageHeight: null,
+    imageId: "AS15-88-11901",
+    imageTitle: "Apollo 15 Lunar Roving Vehicle parked at the VIP site",
+    imageDate: "August 2, 1971",
+    imageSource: "https://images.nasa.gov/details/as15-88-11901",
+  },
+  {
+    id: "M-005",
+    mission: {
+      name: "Viking 1",
+      program: "Viking Program",
+      spacecraftId: "1975-075C",
+      launchDate: "1975-08-20",
+    },
+    equipment: {
+      name: "Viking 1 Lander",
+      type: "Mars lander",
+      designation: "Thomas A. Mutch Memorial Station",
+    },
+    destination: "Mars",
+    landingDate: "1976-07-20",
+    deploymentDate: null,
+    operationalPeriod: "1976–1982",
+    operationalStatus: "Inactive",
+    physicalDisposition:
+      "Intact on the volcanic plains of Chryse Planitia. The three-legged titanium body, radioisotope thermoelectric generators (RTGs), inactive soil sampler arm, meteorology boom, and steerable antennas remain on the Martian surface; the landing site and discarded entry hardware were imaged from orbit by MRO's HiRISE camera.",
+    location: {
+      siteName: "Chryse Planitia (Thomas A. Mutch Memorial Station)",
+      coordinates: {
+        latitude: 22.27,
+        longitude: -48.00,
+        display: "22.27° N, 48.00° W (Planetocentric) / 22.48° N, 47.97° W (Planetographic)",
+      },
+    },
+    events: [
+      {
+        type: "launch",
+        date: "1975-08-20",
+        description:
+          "Launched aboard a Titan IIIE-Centaur from Cape Canaveral Air Force Station Launch Complex 41.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+      },
+      {
+        type: "landing",
+        date: "1976-07-20",
+        description:
+          "Viking 1 Lander separated from the orbiter and touched down softly on Chryse Planitia at 11:53:06 UTC, achieving the first successful long-duration Mars surface landing.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+      },
+      {
+        type: "milestone",
+        date: "1976-07-20",
+        description:
+          "Returned the first photograph taken from the surface of Mars (PIA00381), revealing its footpad and the surrounding rock-strewn plain.",
+        reference: "https://images.nasa.gov/details/PIA00381",
+      },
+      {
+        type: "milestone",
+        date: "1982-11-11",
+        description:
+          "Last transmission received on Earth from Viking 1 Lander on Sol 2245, according to NASA technical-history sources.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+      },
+      {
+        type: "contact_loss",
+        date: "1982-11-13",
+        description:
+          "End of lander communications / shutdown date reported by NASA's Viking project overview and NSSDCA, following a command-related anomaly.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+      },
+      {
+        type: "shutdown",
+        date: "1983-05-21",
+        description:
+          "Formal mission closure officially declared by NASA after six months of unsuccessful recovery attempts, marking administrative closure rather than the lander's operational end.",
+        reference: "https://mars.nasa.gov/missions/viking/",
+      },
+    ],
+    description:
+      "The first American spacecraft to soft-land on Mars and operate successfully for over six years, performing groundbreaking biological and meteorological studies.",
+    legacy:
+      "Viking 1 operated for 2,245 Sols (over 6 Earth years), returning more than 50,000 images, providing long-term Martian weather data, and executing the first direct in situ chemical and biological searches on Mars.",
+    media: {
+      src: null,
+      width: null,
+      height: null,
+      nasaId: "PIA00381",
+      title: "First Photograph Taken on Mars Surface (Viking 1)",
+      date: "July 20, 1976",
+      sourceUrl: "https://images.nasa.gov/details/PIA00381",
+    },
+    references: [
+      {
+        label: "NASA NSSDCA Master Catalog: Viking 1 Lander",
+        url: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
+        claim: "Spacecraft catalog ID 1975-075C (distinct from orbiter 1975-075A), landing coordinates, and operational timeline.",
+        nssdcId: "1975-075C",
+      },
+      {
+        label: "NASA Images Archive Record PIA00381",
+        url: "https://images.nasa.gov/details/PIA00381",
+        claim: "First photograph transmitted from the surface of Mars showing Viking 1 footpad and regolith.",
+      },
+      {
+        label: "NASA JPL Viking Mission Overview",
+        url: "https://mars.nasa.gov/missions/viking/",
+        claim: "Mission parameters, 2245-Sol operational duration, and communications termination history.",
+      },
+      {
+        label: "USGS Astrogeology Science Center: Mars Landing Site Coordinates",
+        url: "https://astrogeology.usgs.gov/search/map/Mars/Viking/Viking1_Lander_Coordinates",
+        claim: "Explicit distinction between planetocentric (22.27° N, 48.00° W) and planetographic (22.48° N, 47.97° W) coordinate reference frames.",
+      },
+    ],
+
+    // Backward-compatibility properties for existing UI components
+    name: "Viking 1 Lander",
+    year: "1976–1982",
+    type: "Mars lander",
+    status: "Inactive",
+    image: null,
+    imageWidth: null,
+    imageHeight: null,
+    imageId: "PIA00381",
+    imageTitle: "First Photograph Taken on Mars Surface (Viking 1)",
+    imageDate: "July 20, 1976",
+    imageSource: "https://images.nasa.gov/details/PIA00381",
+  },
+  {
+    id: "M-006",
+    mission: {
+      name: "Mars Exploration Rover",
+      program: "Mars Exploration Program",
+      spacecraftId: "2003-032A",
+      launchDate: "2003-07-08",
+    },
+    equipment: {
+      name: "Opportunity Rover",
+      type: "Mars rover",
+      designation: "MER-B",
+    },
+    destination: "Mars",
+    landingDate: null,
+    deploymentDate: "2004-01-31",
+    operationalPeriod: "2004–2018",
+    operationalStatus: "Inactive",
+    physicalDisposition:
+      "Intact on the western slope of Perseverance Valley on the rim of Endeavour Crater. Opportunity arrived on Mars encased within the MER-B entry and lander system (Challenger Memorial Station) and was deployed after touchdown. At the end of its mission, its solar arrays became coated with atmospheric dust, while its Pancam mast and robotic arm remained deployed.",
+    location: {
+      siteName: "Perseverance Valley, western rim of Endeavour Crater (Final Location)",
+      coordinates: null,
+    },
+    events: [
+      {
+        type: "launch",
+        date: "2003-07-08",
+        description:
+          "Launched aboard a Delta II Heavy (7925H) rocket from Cape Canaveral Space Launch Complex 17B at 03:18 UTC (July 7, 20:18 PDT Pacific local time).",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+      },
+      {
+        type: "landing",
+        date: "2004-01-25",
+        description:
+          "The MER-B entry and lander system (Challenger Memorial Station) carrying Opportunity touched down inside Eagle Crater, Meridiani Planum, at 05:05 UTC.",
+        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+      },
+      {
+        type: "deployment",
+        date: "2004-01-31",
+        description:
+          "Opportunity was deployed from the landed base station, rolling down the egress ramp onto Martian soil on Sol 7 to initiate surface operations.",
+        reference: "https://mars.nasa.gov/mer/mission/timeline/",
+      },
+      {
+        type: "milestone",
+        date: "2015-03-24",
+        description:
+          "Completed an official marathon driving distance (42.195 km / 26.219 miles) on Sol 3968, the first wheeled vehicle to do so on another world.",
+        reference: "https://mars.nasa.gov/mer/mission/timeline/",
+      },
+      {
+        type: "contact_loss",
+        date: "2018-06-10",
+        description:
+          "Last communication and telemetry session received on Sol 5111 before a severe planet-encircling dust storm deprived the solar arrays of sunlight in Perseverance Valley.",
+        reference: "https://mars.nasa.gov/news/8413/nasas-opportunity-rover-mission-on-mars-comes-to-end/",
+      },
+      {
+        type: "shutdown",
+        date: "2019-02-13",
+        description:
+          "NASA officially declared formal mission termination at JPL after more than a thousand recovery commands sent since June 2018 went unanswered.",
+        reference: "https://mars.nasa.gov/news/8413/nasas-opportunity-rover-mission-on-mars-comes-to-end/",
+      },
+    ],
+    description:
+      "A record-breaking solar-powered rover that arrived on Mars inside the MER-B landing system, deployed onto the surface, and operated for nearly 15 years searching for evidence of past liquid water.",
+    legacy:
+      "Designed for a 90-Sol mission and 1,000 meters of driving, Opportunity operated for 5,111 Sols and traveled 45.16 kilometers (28.06 miles). It uncovered decisive mineralogical evidence of past liquid water, including hematite 'blueberries' and jarosite formations.",
+    media: {
+      src: null,
+      width: null,
+      height: null,
+      nasaId: "PIA18079",
+      title: "Opportunity Self-Portrait After Martian Wind Dust Cleaning",
+      date: "March 24, 2014",
+      sourceUrl: "https://images.nasa.gov/details/PIA18079",
+    },
+    references: [
+      {
+        label: "NASA NSSDCA Master Catalog: Opportunity Rover",
+        url: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+        claim: "Spacecraft designation 2003-032A, UTC launch timeline, and landing coordinates in Meridiani Planum.",
+        nssdcId: "2003-032A",
+      },
+      {
+        label: "NASA Images Archive Record PIA18079",
+        url: "https://images.nasa.gov/details/PIA18079",
+        claim: "Archival self-portrait of Opportunity taken by Pancam after a solar panel cleaning event.",
+      },
+      {
+        label: "NASA JPL Opportunity Mission Conclusion Release",
+        url: "https://mars.nasa.gov/news/8413/nasas-opportunity-rover-mission-on-mars-comes-to-end/",
+        claim: "Documentation of June 10, 2018 last contact, February 13, 2019 formal mission termination, and 45.16 km traverse record.",
+      },
+      {
+        label: "NASA JPL Mars Exploration Rover Overview",
+        url: "https://mars.nasa.gov/mer/",
+        claim: "Mission profile detailing arrival in landing package, Sol 7 deployment egress, and exploration of Endeavour Crater.",
+      },
+    ],
+
+    // Backward-compatibility properties for existing UI components
+    name: "Opportunity Rover",
+    year: "2004–2018",
+    type: "Mars rover",
+    status: "Inactive",
+    image: null,
+    imageWidth: null,
+    imageHeight: null,
+    imageId: "PIA18079",
+    imageTitle: "Opportunity Self-Portrait After Martian Wind Dust Cleaning",
+    imageDate: "March 24, 2014",
+    imageSource: "https://images.nasa.gov/details/PIA18079",
+  },
 ];
 
 // Run runtime schema validation to guarantee archive integrity

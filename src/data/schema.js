@@ -88,17 +88,19 @@ export function validateRecord(record) {
   if (!record.media || typeof record.media !== "object") {
     errors.push(`Record ${record.id}: Missing media object.`);
   } else {
-    if (!record.media.src || !record.media.src.startsWith("/images/")) {
-      errors.push(`Record ${record.id}: Media src must be a valid internal path starting with /images/.`);
+    if (record.media.src !== null) {
+      if (typeof record.media.src !== "string" || !record.media.src.startsWith("/images/")) {
+        errors.push(`Record ${record.id}: Media src must be a valid internal path starting with /images/ or null.`);
+      }
+      if (typeof record.media.src === "string" && !record.media.src.endsWith(".webp")) {
+        errors.push(`Record ${record.id}: Media src must reference an optimized .webp asset.`);
+      }
     }
-    if (!record.media.src.endsWith(".webp")) {
-      errors.push(`Record ${record.id}: Media src must reference an optimized .webp asset.`);
+    if (record.media.width !== null && (typeof record.media.width !== "number" || record.media.width <= 0)) {
+      errors.push(`Record ${record.id}: Media width must be a positive number or null.`);
     }
-    if (typeof record.media.width !== "number" || record.media.width <= 0) {
-      errors.push(`Record ${record.id}: Media width must be a positive number.`);
-    }
-    if (typeof record.media.height !== "number" || record.media.height <= 0) {
-      errors.push(`Record ${record.id}: Media height must be a positive number.`);
+    if (record.media.height !== null && (typeof record.media.height !== "number" || record.media.height <= 0)) {
+      errors.push(`Record ${record.id}: Media height must be a positive number or null.`);
     }
     if (!record.media.sourceUrl || !record.media.sourceUrl.startsWith("https://")) {
       errors.push(`Record ${record.id}: Media sourceUrl must be a secure HTTPS NASA URL.`);
@@ -139,7 +141,8 @@ export function validateRecord(record) {
     "legacy",
   ];
   compatKeys.forEach((key) => {
-    if (record[key] === undefined || record[key] === null) {
+    const isNullable = ["image", "imageWidth", "imageHeight"].includes(key);
+    if (record[key] === undefined || (!isNullable && record[key] === null)) {
       errors.push(`Record ${record.id}: Missing backward-compatibility property "${key}".`);
     }
   });
