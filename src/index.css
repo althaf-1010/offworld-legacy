@@ -1,0 +1,691 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Space Grotesk', sans-serif;
+  color: #e9e8e5;
+  background: #0b0c0f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --bg: #0b0c0f;
+  --surface: #111318;
+  --surface-light: #171a20;
+  --text: #e9e8e5;
+  --muted: #888b95;
+  --accent: #df5545;
+  --line: rgba(255,255,255,0.12);
+  --mono: 'DM Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+button, a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+main {
+  width: 100%;
+  overflow: hidden;
+}
+
+.navbar {
+  height: 76px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: rgba(11,12,15,0.95);
+}
+
+.brand {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.brand span {
+  color: var(--accent);
+}
+
+.nav-tag, .eyebrow, .coordinates,
+.collection-count, .card-top, .destination,
+.card-meta, .mission-link, .footer-year {
+  font-family: var(--mono);
+  letter-spacing: 1.1px;
+  font-size: 10px;
+}
+
+.nav-tag {
+  color: var(--muted);
+}
+
+.hero {
+  min-height: 650px;
+  padding: 110px 10% 95px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 80% 50%, rgba(145,71,54,0.13), transparent 45%),
+    linear-gradient(120deg, #0b0c0f 40%, #131317);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 0.99;
+  letter-spacing: -5px;
+  font-weight: 500;
+  margin: 30px 0;
+}
+
+.hero h1 span {
+  color: var(--accent);
+}
+
+.hero-content > p {
+  color: #a3a4ac;
+  max-width: 490px;
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+
+.explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 25px;
+  padding: 16px 20px;
+  border: 1px solid rgba(223,85,69,0.6);
+  color: #f0d8d3;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: background 0.2s, border 0.2s;
+}
+
+.explore-btn:hover {
+  background: rgba(223,85,69,0.13);
+  border-color: var(--accent);
+}
+
+.explore-btn span {
+  color: var(--accent);
+}
+
+.coordinates {
+  margin-top: 65px;
+  color: var(--muted);
+}
+
+.coordinates span {
+  color: var(--accent);
+}
+
+.hero-orbit {
+  position: absolute;
+  right: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 300px;
+  opacity: 0.85;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 30px;
+  border: 1px solid rgba(255,255,255,0.17);
+  border-radius: 50%;
+  transform: rotate(-25deg) scaleY(0.5);
+}
+
+.orbit-moon {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 30px;
+  left: 30px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, transparent 0 8%, rgba(0,0,0,0.1) 9%),
+    radial-gradient(circle at 65% 60%, #5e5c5a 0 5%, transparent 6%),
+    radial-gradient(circle at 35% 35%, #aaa49b, #56545a 65%, #27272e);
+  box-shadow: -25px 15px 75px rgba(223,85,69,0.17);
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  right: 36px;
+  top: 65px;
+  box-shadow: 0 0 20px var(--accent);
+}
+
+.orbit-label {
+  position: absolute;
+  right: -10px;
+  bottom: 30px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+}
+
+.archive {
+  max-width: 1200px;
+  margin: auto;
+  padding: 100px 7%;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.section-heading h2 {
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 500;
+  letter-spacing: -2px;
+  margin: 12px 0 6px;
+}
+
+.section-description {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.collection-count {
+  color: var(--muted);
+  padding-bottom: 10px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.filters button {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 10px 17px;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.filters button span {
+  margin-left: 8px;
+  color: var(--accent);
+}
+
+.filters button.active,
+.filters button:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.mission-card {
+  min-width: 0;
+  padding: 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color 0.25s, transform 0.25s;
+}
+
+.mission-card:hover {
+  border-color: rgba(223,85,69,0.6);
+  transform: translateY(-4px);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.status {
+  color: #d18a80;
+}
+
+.planet-visual {
+  height: 155px;
+  margin: 25px 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #29272a, #131419 72%);
+}
+
+.planet-visual.mars {
+  background: radial-gradient(ellipse at center, #40251f, #171317 72%);
+}
+
+.planet-sphere {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 70px;
+  color: #aaa39a;
+  background: radial-gradient(circle at 35% 30%, #bbb5a9, #55525a 65%, #22232a);
+  box-shadow: -10px 12px 35px rgba(0,0,0,0.7);
+}
+
+.mars .planet-sphere {
+  color: #d68b6d;
+  background: radial-gradient(circle at 35% 30%, #e9a27a, #9b4c35 65%, #41251f);
+}
+
+.planet-coordinate {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  color: #a6a0a0;
+  font: 8px var(--mono);
+  letter-spacing: 1px;
+}
+
+.destination {
+  color: var(--accent);
+  font-size: 9px;
+}
+
+.mission-card h3 {
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  margin: 12px 0;
+}
+
+.mission-description {
+  color: #9b9da5;
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 70px;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 17px;
+  margin-top: 20px;
+  font-size: 9px;
+}
+
+.card-meta span:last-child {
+  color: var(--text);
+}
+
+.mission-link {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px 0 4px;
+  display: flex;
+  justify-content: space-between;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-size: 9px;
+}
+
+.mission-link span {
+  color: var(--accent);
+  font-size: 15px;
+}
+
+.mission-details {
+  margin-top: 18px;
+  padding: 16px;
+  background: var(--surface-light);
+  border-left: 2px solid var(--accent);
+}
+
+.mission-details p {
+  margin-top: 10px;
+  color: #a7a8af;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.closing {
+  padding: 100px 8%;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at center, rgba(145,71,54,0.12), transparent 65%),
+    #101116;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.closing h2 {
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.15;
+  letter-spacing: -2px;
+  font-weight: 500;
+  margin: 22px 0 0;
+}
+
+.closing h2 span {
+  color: var(--accent);
+}
+
+footer {
+  min-height: 90px;
+  padding: 25px 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.7px;
+}
+
+/* Mobile layout */
+
+@media (max-width: 760px) {
+  .navbar {
+    height: 64px;
+    padding: 0 6%;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .nav-tag {
+    font-size: 8px;
+  }
+
+  .hero {
+    min-height: 570px;
+    padding: 85px 7% 65px;
+  }
+
+  .hero h1 {
+    font-size: clamp(43px, 11vw, 68px);
+    letter-spacing: -2.8px;
+    line-height: 1.03;
+    margin: 25px 0;
+  }
+
+  .hero-content > p {
+    font-size: 13px;
+    max-width: 420px;
+  }
+
+  .coordinates {
+    margin-top: 45px;
+  }
+
+  .hero-orbit {
+    width: 180px;
+    height: 180px;
+    right: -35px;
+    top: 78%;
+    opacity: 0.25;
+  }
+
+  .orbit-moon {
+    width: 110px;
+    height: 110px;
+    top: 20px;
+    left: 20px;
+  }
+
+  .orbit-ring {
+    inset: 20px;
+  }
+
+  .orbit-label {
+    display: none;
+  }
+
+  .archive {
+    padding: 75px 6%;
+  }
+
+  .section-heading h2 {
+    font-size: 34px;
+  }
+
+  .section-description {
+    font-size: 12px;
+  }
+
+  .collection-count {
+    font-size: 8px;
+  }
+
+  .mission-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .mission-card {
+    padding: 20px;
+  }
+
+  .planet-visual {
+    height: 175px;
+  }
+
+  .mission-description {
+    min-height: 0;
+  }
+
+  .closing {
+    padding: 75px 6%;
+  }
+
+  footer {
+    padding: 25px 6%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1050px) {
+  .mission-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-orbit {
+    right: -20px;
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* NASA historical mission photographs */
+
+.mission-image {
+  margin: 25px 0;
+  height: 190px;
+  position: relative;
+  overflow: hidden;
+  background: #171a20;
+}
+
+.mission-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mission-card:hover .mission-image img {
+  transform: scale(1.04);
+}
+
+.mission-image figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  color: #e9e8e5;
+  font: 8px var(--mono);
+  letter-spacing: 1px;
+}
+
+.image-credit-heading {
+  margin-top: 20px;
+}
+
+.image-id {
+  color: var(--muted);
+  font: 10px var(--mono);
+  margin-top: 8px;
+}
+
+.source-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--accent);
+  font: 10px var(--mono);
+  text-decoration: none;
+}
+
+.source-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 760px) {
+  .mission-image {
+    height: 210px;
+  }
+}
+
+/* OFFWORLD LEGACY — cinematic hero enhancement */
+
+.hero {
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(11, 12, 15, 0.98) 0%,
+      rgba(11, 12, 15, 0.88) 38%,
+      rgba(11, 12, 15, 0.48) 72%,
+      rgba(11, 12, 15, 0.35) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(11, 12, 15, 0.75),
+      transparent 45%
+    ),
+    url("/images/missions/apollo-alsep.jpg") center 48% / cover no-repeat;
+  animation: hero-image-drift 28s ease-in-out infinite alternate;
+}
+
+.hero-content {
+  z-index: 2;
+}
+
+.hero-orbit {
+  z-index: 1;
+}
+
+@keyframes hero-image-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero::before {
+    background-position: 55% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before {
+    animation: none;
+  }
+}
