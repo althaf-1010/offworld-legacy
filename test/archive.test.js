@@ -5,6 +5,7 @@ import test from "node:test";
 import sharp from "sharp";
 import { missions } from "../src/data/missions.js";
 import { filterMissions, getDestinations, getMissionById, validateMissions } from "../src/data/schema.js";
+import { projectCoordinates } from "../src/data/coordinates.js";
 
 test("the complete archive satisfies the canonical schema", () => {
   assert.deepEqual(validateMissions(missions), { valid: true, errors: [] });
@@ -56,6 +57,19 @@ test("coordinates must be explicit: a point or null", () => {
   const invalid = structuredClone(missions[0]);
   delete invalid.location.coordinates;
   assert.match(validateMissions([invalid]).errors.join(" "), /coordinates must be an object or explicit null/);
+});
+
+test("coordinate plot maps poles and prime meridian inside its frame", () => {
+  assert.deepEqual(projectCoordinates(90, -180), { x: 48, y: 30 });
+  assert.deepEqual(projectCoordinates(-90, 180), { x: 672, y: 330 });
+  assert.deepEqual(projectCoordinates(0, 0), { x: 360, y: 180 });
+  for (const mission of missions) {
+    const coordinates = mission.location.coordinates;
+    if (!coordinates) continue;
+    const point = projectCoordinates(coordinates.latitude, coordinates.longitude);
+    assert.ok(point.x >= 48 && point.x <= 672 && point.y >= 30 && point.y <= 330, mission.id);
+  }
+  assert.equal(getMissionById(missions, "M-006").location.coordinates, null);
 });
 
 test("record dates must agree with the corresponding timeline milestones", () => {

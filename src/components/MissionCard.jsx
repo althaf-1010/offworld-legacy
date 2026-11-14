@@ -27,7 +27,7 @@ function MissionCard({ mission, index, expanded, onToggle }) {
   const { mission: identity, equipment, media, location } = mission;
 
   return (
-    <article className={`mission-card ${expanded ? "is-expanded" : ""}`}>
+    <article className={`mission-card ${expanded ? "is-expanded" : ""}`} id={`mission-${mission.id}`}>
       <div className="card-top">
         <span>FIELD FILE / {mission.id}</span>
         <span className="status"><i aria-hidden="true" />{mission.operationalStatus}</span>
@@ -82,6 +82,8 @@ function MissionCard({ mission, index, expanded, onToggle }) {
         <div className="mission-details" id={detailsId}>
           <section className="detail-section" aria-labelledby={`${detailsId}-facts`}>
             <div className="eyebrow" id={`${detailsId}-facts`}>MISSION PROFILE</div>
+            <p className="purpose-label">WHY IT WAS SENT</p>
+            <p className="disposition-copy mission-purpose">{mission.purpose}</p>
             <dl className="fact-grid">
               <div>
                 <dt>Program</dt>

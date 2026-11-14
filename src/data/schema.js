@@ -84,6 +84,9 @@ export function validateRecord(record) {
   if (!record.description || typeof record.description !== "string") {
     errors.push(`Record ${record.id}: Missing description.`);
   }
+  if (!record.purpose || typeof record.purpose !== "string") {
+    errors.push(`Record ${record.id}: Missing mission purpose.`);
+  }
   if (!record.legacy || typeof record.legacy !== "string") {
     errors.push(`Record ${record.id}: Missing legacy summary.`);
   }

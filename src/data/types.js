@@ -70,6 +70,7 @@
  * @property {{ siteName: string, coordinates: CoordinatePoint | null }} location
  * @property {HistoricalEvent[]} events
  * @property {string} description
+ * @property {string} purpose - Plain-language reason this equipment was sent.
  * @property {string} legacy
  * @property {ReferenceLink[]} references
  * @property {MediaAsset} media

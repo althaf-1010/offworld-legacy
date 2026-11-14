@@ -2,15 +2,33 @@ import { useMemo, useState } from "react";
 import { missions, destinations } from "./data/missions.js";
 import { filterMissions } from "./data/schema.js";
 import MissionCard from "./components/MissionCard.jsx";
+import ExplorationMap from "./components/ExplorationMap.jsx";
+import MissionGlossary from "./components/MissionGlossary.jsx";
 
 function App() {
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All types");
   const [selectedMission, setSelectedMission] = useState(null);
+  const [mapDestination, setMapDestination] = useState("Moon");
+
+  function openMappedRecord(mission) {
+    setFilter(mission.destination);
+    setCategory("All types");
+    setQuery("");
+    setSelectedMission(mission.id);
+    requestAnimationFrame(() => document.getElementById(`mission-${mission.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
 
   const filteredMissions = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase();
     return filterMissions(missions, filter).filter((mission) => {
+      const equipmentType = mission.equipment.type.toLocaleLowerCase();
+      const matchesCategory = category === "All types" ||
+        (category === "Rovers" && equipmentType.includes("rover")) ||
+        (category === "Landers" && equipmentType.includes("lander")) ||
+        (category === "Instruments" && equipmentType.includes("science"));
+      if (!matchesCategory) return false;
       if (!normalizedQuery) return true;
       const searchable = [
         mission.mission.name,
@@ -20,14 +38,16 @@ function App() {
         mission.equipment.designation,
         mission.location.siteName,
         mission.description,
+        mission.purpose,
         mission.legacy,
+        ...mission.events.map((event) => event.description),
       ]
         .filter(Boolean)
         .join(" ")
         .toLocaleLowerCase();
       return searchable.includes(normalizedQuery);
     });
-  }, [filter, query]);
+  }, [category, filter, query]);
 
   return (
     <main id="top">
@@ -36,6 +56,7 @@ function App() {
           OFFWORLD<span> LEGACY</span>
         </a>
         <span className="nav-tag">FIELD ARCHIVE / NASA SPACE APPS</span>
+        <div className="nav-links"><a href="#missions">ARCHIVE</a><a href="#exploration">SURFACE INDEX</a></div>
       </nav>
 
       <header className="hero">
@@ -113,6 +134,11 @@ function App() {
             />
           </label>
         </div>
+        <div className="category-controls" role="group" aria-label="Filter by equipment category">
+          {["All types", "Rovers", "Landers", "Instruments"].map((item) => (
+            <button key={item} type="button" className={category === item ? "active" : ""} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>
+          ))}
+        </div>
 
         {filteredMissions.length > 0 ? (
           <div className="mission-grid" aria-live="polite">
@@ -132,10 +158,14 @@ function App() {
           <div className="empty-state">
             <span className="eyebrow">NO MATCHING FILES</span>
             <p>Try another term or destination.</p>
-            <button onClick={() => { setFilter("All"); setQuery(""); }}>RESET ARCHIVE</button>
+            <button onClick={() => { setFilter("All"); setCategory("All types"); setQuery(""); }}>RESET ARCHIVE</button>
           </div>
         )}
       </section>
+
+      <ExplorationMap destination={mapDestination} onDestinationChange={setMapDestination} onOpenRecord={openMappedRecord} />
+
+      <MissionGlossary />
 
       <section className="closing" aria-labelledby="closing-title">
         <div className="closing-coordinate">SURFACE RECORD / 001—006</div>

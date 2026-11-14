@@ -123,3 +123,12 @@ The implementation milestone is complete. No image downloads were run; all exist
 - Confirmed Opportunity's June 10, 2018 last signal, February 13, 2019 formal mission conclusion, and 45.16 km total odometry: [NASA Opportunity mission](https://science.nasa.gov/mission/mer-opportunity/). NASA's 2015 report confirms the March 24 marathon milestone: [NASA Aeronautics and Space Report](https://www.nasa.gov/wp-content/uploads/2023/01/presrep2015.pdf).
 
 These checks confirmed the corresponding record dates and claims; the only wording change in this follow-up was the Surveyor 3 hops/touchdowns distinction.
+
+### Master execution prompt progress
+
+- Added a Moon/Mars coordinate plot using published latitude/longitude only. The plot is explicitly not a terrain basemap; the Opportunity record remains listed as unplotted because this archive has no verified coordinate point for it.
+- Added equipment-category filtering and expanded archive search to include purpose and timeline text.
+- Added a plain-language mission purpose to each record and an introductory glossary for landers, rovers, payloads, and surface operations.
+- Added a project response checklist tied to the [official 2026 challenge brief](https://www.spaceappschallenge.org/2026/challenges/abandoned-but-not-forgotten-storytelling-about-nasas-discarded-equipment-on-the-moon-and-mars/), plus deployment steps and known limitations in README. No award eligibility or judging claim is made.
+- Added automated coordinate-projection tests. Existing schema and local-image checks remain in place.
+- Validation after these changes: `npm run lint`, `npm test`, and `npm run build` passed. Local Vite served the app entry point by HTTP. Browser-based responsive testing is unavailable in the configured environment; no public deployment was made.

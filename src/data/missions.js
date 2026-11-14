@@ -68,6 +68,7 @@ export const missions = [
     ],
     description:
       "An uncrewed spacecraft that explored the lunar surface before Apollo 12 astronauts visited it.",
+    purpose: "Surveyor 3 tested lunar surface conditions and returned close-up images to help assess the Moon for future crewed landings.",
     legacy:
       "Surveyor 3 provided important information about the lunar surface. Apollo 12 astronauts later visited the spacecraft and retrieved components for examination on Earth.",
     media: {
@@ -159,6 +160,7 @@ export const missions = [
     ],
     description:
       "The first successful rover to operate on Mars, exploring the terrain around Pathfinder.",
+    purpose: "Sojourner was a technology demonstration for small mobile exploration and analyzed rocks and soil near the Pathfinder lander.",
     legacy:
       "Sojourner demonstrated the value of mobile robotic exploration and helped establish the foundations for later Mars rover missions.",
     media: {
@@ -250,6 +252,7 @@ export const missions = [
     ],
     description:
       "A collection of scientific experiments deployed by Apollo astronauts to study the Moon.",
+    purpose: "Apollo 12 ALSEP was deployed to make long-running geophysical and environmental measurements after the astronauts left the Moon.",
     legacy:
       "The Apollo Lunar Surface Experiments Package collected scientific measurements that helped researchers understand the Moon's interior and environment.",
     media: {
@@ -349,6 +352,7 @@ export const missions = [
     ],
     description:
       "The first crewed rover driven on the Moon, vastly expanding astronauts' exploratory range during Apollo 15.",
+    purpose: "LRV-1 let Apollo 15 astronauts travel farther from the Lunar Module while collecting samples and documenting the Hadley-Apennine region.",
     legacy:
       "LRV-1 traversed 27.8 km across the Hadley-Apennine terrain, enabling the collection of 77 kg of lunar samples—including the ancient 4.1-billion-year-old Genesis Rock—and proving mobility systems for extraterrestrial exploration.",
     media: {
@@ -460,6 +464,7 @@ export const missions = [
     ],
     description:
       "The first American spacecraft to soft-land on Mars and operate successfully for over six years, performing groundbreaking biological and meteorological studies.",
+    purpose: "Viking 1 investigated the Martian surface, atmosphere, weather, and soil chemistry, including experiments designed to test for evidence of life.",
     legacy:
       "Viking 1 operated for 2,245 Sols (over 6 Earth years), returning more than 50,000 images, providing long-term Martian weather data, and executing the first direct in situ chemical and biological searches on Mars.",
     media: {
@@ -567,6 +572,7 @@ export const missions = [
     ],
     description:
       "A record-breaking solar-powered rover that arrived on Mars inside the MER-B landing system, deployed onto the surface, and operated for nearly 15 years searching for evidence of past liquid water.",
+    purpose: "Opportunity investigated rocks and soils for evidence that liquid water had altered Mars and examined conditions relevant to past habitability.",
     legacy:
       "Designed for a 90-Sol mission and 1,000 meters of driving, Opportunity operated for 5,111 Sols and traveled 45.16 kilometers (28.06 miles). It uncovered decisive mineralogical evidence of past liquid water, including hematite 'blueberries' and jarosite formations.",
     media: {
