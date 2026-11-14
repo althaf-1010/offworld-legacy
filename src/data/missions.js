@@ -28,7 +28,7 @@ export const missions = [
     operationalPeriod: "1967",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Intact inside a 200-meter crater in Oceanus Procellarum. In November 1969, Apollo 12 astronauts inspected the lander and retrieved approximately 10 kg of components—including the TV camera and soil scoop—which were returned to Earth for analysis.",
+      "Remains inside a 200-meter crater in Oceanus Procellarum. In November 1969, Apollo 12 astronauts inspected the lander and removed its television camera system, soil sampler scoop, cable, and sections of tubing for analysis on Earth.",
     location: {
       siteName: "Oceanus Procellarum (Ocean of Storms)",
       coordinates: {
@@ -48,14 +48,14 @@ export const missions = [
         type: "landing",
         date: "1967-04-20",
         description:
-          "Soft-landed inside a lunar crater in Oceanus Procellarum after three brief vernier engine rebounds.",
+          "Soft-landed inside a lunar crater in Oceanus Procellarum after bouncing twice when the main engine failed to cut off at the planned altitude.",
         reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
       },
       {
         type: "shutdown",
         date: "1967-05-04",
         description:
-          "First lunar sunset; transmissions ceased and the lander did not resume operations after the lunar night.",
+          "The last data were received two days after local sunset on May 3. Surveyor 3 did not resume operation after the lunar night.",
         reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
       },
       {
@@ -77,6 +77,7 @@ export const missions = [
       nasaId: "AS12-48-7121",
       title: "View of Surveyor III in its crater",
       date: "November 20, 1969",
+      credit: "NASA/JSC",
       sourceUrl: "https://images.nasa.gov/details/as12-48-7121",
     },
     references: [
@@ -98,18 +99,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Surveyor 3",
-    year: "1967",
-    type: "Lunar lander",
-    status: "Inactive",
-    image: "/images/missions/surveyor-3.webp",
-    imageWidth: 800,
-    imageHeight: 800,
-    imageId: "AS12-48-7121",
-    imageTitle: "View of Surveyor III in its crater",
-    imageDate: "November 20, 1969",
-    imageSource: "https://images.nasa.gov/details/as12-48-7121",
   },
   {
     id: "M-002",
@@ -177,8 +166,9 @@ export const missions = [
       width: 800,
       height: 405,
       nasaId: "PIA04318",
-      title: 'Sojourner Sits Near "Rock Garden"',
-      date: "NASA image archive record",
+      title: 'Sojourner Sits Near “Rock Garden”',
+      date: "Image added February 1, 2003",
+      credit: "NASA/JPL-Caltech",
       sourceUrl: "https://images.nasa.gov/details/PIA04318",
     },
     references: [
@@ -200,18 +190,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Sojourner",
-    year: "1997",
-    type: "Mars rover",
-    status: "Inactive",
-    image: "/images/missions/sojourner.webp",
-    imageWidth: 800,
-    imageHeight: 405,
-    imageId: "PIA04318",
-    imageTitle: 'Sojourner Sits Near "Rock Garden"',
-    imageDate: "NASA image archive record",
-    imageSource: "https://images.nasa.gov/details/PIA04318",
   },
   {
     id: "M-003",
@@ -229,7 +207,7 @@ export const missions = [
     destination: "Moon",
     landingDate: null,
     deploymentDate: "1969-11-19",
-    operationalPeriod: "1969–1972",
+    operationalPeriod: "1969–1977",
     operationalStatus: "Inactive",
     physicalDisposition:
       "Central station, SNAP-27 plutonium RTG power unit, passive seismometer, and instrument sensors remain deployed in place on the lunar regolith in Oceanus Procellarum. Science transmission was commanded off on September 30, 1977 due to budget constraints.",
@@ -273,7 +251,7 @@ export const missions = [
     description:
       "A collection of scientific experiments deployed by Apollo astronauts to study the Moon.",
     legacy:
-      "The Apollo Lunar Surface Experiments Packages collected scientific measurements that helped researchers understand the Moon's interior and environment.",
+      "The Apollo Lunar Surface Experiments Package collected scientific measurements that helped researchers understand the Moon's interior and environment.",
     media: {
       src: "/images/missions/apollo-alsep.webp",
       width: 800,
@@ -281,6 +259,7 @@ export const missions = [
       nasaId: "AS12-47-6918",
       title: "View of part of the deployed Apollo Lunar Surface Experiment Package",
       date: "November 19, 1969",
+      credit: "NASA/JSC",
       sourceUrl: "https://images.nasa.gov/details/as12-47-6918",
     },
     references: [
@@ -302,18 +281,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Apollo ALSEP",
-    year: "1969–1972",
-    type: "Science instruments",
-    status: "Inactive",
-    image: "/images/missions/apollo-alsep.webp",
-    imageWidth: 800,
-    imageHeight: 774,
-    imageId: "AS12-47-6918",
-    imageTitle: "View of part of the deployed Apollo Lunar Surface Experiment Package",
-    imageDate: "November 19, 1969",
-    imageSource: "https://images.nasa.gov/details/as12-47-6918",
   },
   {
     id: "M-004",
@@ -389,8 +356,9 @@ export const missions = [
       width: 1200,
       height: 1255,
       nasaId: "AS15-88-11901",
-      title: "Apollo 15 Lunar Roving Vehicle parked at the VIP site",
+      title: "The Apollo 15 Rover at Its Final Parking Spot",
       date: "August 2, 1971",
+      credit: "NASA/JSC / David R. Scott",
       sourceUrl: "https://images.nasa.gov/details/as15-88-11901",
     },
     references: [
@@ -417,18 +385,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Apollo 15 Lunar Roving Vehicle (LRV-1)",
-    year: "1971",
-    type: "Lunar rover",
-    status: "Inactive",
-    image: "/images/missions/apollo-15-lrv.webp",
-    imageWidth: 1200,
-    imageHeight: 1255,
-    imageId: "AS15-88-11901",
-    imageTitle: "Apollo 15 Lunar Roving Vehicle parked at the VIP site",
-    imageDate: "August 2, 1971",
-    imageSource: "https://images.nasa.gov/details/as15-88-11901",
   },
   {
     id: "M-005",
@@ -511,8 +467,9 @@ export const missions = [
       width: 1200,
       height: 427,
       nasaId: "PIA00381",
-      title: "First Photograph Taken on Mars Surface (Viking 1)",
+      title: "First Photograph Taken On Mars Surface",
       date: "July 20, 1976",
+      credit: "NASA/JPL",
       sourceUrl: "https://images.nasa.gov/details/PIA00381",
     },
     references: [
@@ -539,18 +496,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Viking 1 Lander",
-    year: "1976–1982",
-    type: "Mars lander",
-    status: "Inactive",
-    image: "/images/missions/viking-1-lander.webp",
-    imageWidth: 1200,
-    imageHeight: 427,
-    imageId: "PIA00381",
-    imageTitle: "First Photograph Taken on Mars Surface (Viking 1)",
-    imageDate: "July 20, 1976",
-    imageSource: "https://images.nasa.gov/details/PIA00381",
   },
   {
     id: "M-006",
@@ -629,8 +574,9 @@ export const missions = [
       width: 1200,
       height: 939,
       nasaId: "PIA18079",
-      title: "Opportunity Self-Portrait After Martian Wind Dust Cleaning",
+      title: "Self-Portrait by Freshly Cleaned Opportunity Mars Rover in March 2014",
       date: "March 24, 2014",
+      credit: "NASA/JPL-Caltech/Cornell/Arizona State University",
       sourceUrl: "https://images.nasa.gov/details/PIA18079",
     },
     references: [
@@ -657,18 +603,6 @@ export const missions = [
       },
     ],
 
-    // Backward-compatibility properties for existing UI components
-    name: "Opportunity Rover",
-    year: "2004–2018",
-    type: "Mars rover",
-    status: "Inactive",
-    image: "/images/missions/opportunity-rover.webp",
-    imageWidth: 1200,
-    imageHeight: 939,
-    imageId: "PIA18079",
-    imageTitle: "Opportunity Self-Portrait After Martian Wind Dust Cleaning",
-    imageDate: "March 24, 2014",
-    imageSource: "https://images.nasa.gov/details/PIA18079",
   },
 ];
 

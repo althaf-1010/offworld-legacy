@@ -71,6 +71,45 @@ These are repository-level observations; historical claims were not independentl
 8. **Reduce duplicated data:** Update the UI to consume canonical `mission`, `equipment`, and `media` fields, then remove compatibility aliases and their validation once all consumers are migrated.
 9. **Documentation and cleanup:** Update README with actual features, data/schema conventions, NASA image processing steps, and attribution. Remove unused starter stylesheet/assets when they are confirmed unnecessary.
 
-## Inspection limits
+## Inspection limits at the time of the original audit
 
-This was a read-only code and working-tree inspection, not a run-time verification or an independent historical fact-check. No build, lint, or other test command was run.
+The initial audit was a read-only code and working-tree inspection, not a run-time verification or an independent historical fact-check. No build, lint, or other test command was run at that time. The progress addendum below records subsequent implementation and validation.
+
+## Progress addendum — 2026-11-14
+
+### Phase 3C completed — commit `46f79ae`
+
+- Verified the three existing new WebPs with Sharp and visual inspection: Apollo 15 LRV 1200×1255, Viking 1 1200×427, Opportunity 1200×939.
+- Connected the assets to canonical `media` records and checked NASA IDs, NASA Images details URLs, titles, credits, local paths, and actual dimensions.
+- Hardened the downloader to require an exact NASA ID result, choose the smallest adequate rendition when the API reports dimensions (otherwise use the largest known rendition or original), validate HTTPS image URLs, apply request timeouts, reject non-image downloads, stage converted output before replacing a destination, and clean temporary files on failure.
+- Documented the asset workflow and Sharp requirement in README. No images were downloaded again.
+
+### Historical source review and corrections
+
+Primary-source review confirmed and corrected these inconsistencies:
+
+- Surveyor 3 bounced twice during landing, not three times. The last data were received May 4, 1967, two days after local sunset on May 3; NASA lists the spacecraft as operating April 20 through May 4. Its disposition now states that the camera system, scoop, cable, and tubing were removed by Apollo 12 rather than describing the lander as intact. Sources: [NASA Surveyor 3 mission](https://science.nasa.gov/mission/surveyor-3/), [NASA Surveyor facts](https://science.nasa.gov/resource/nasa-facts-rangers-and-surveyors-to-the-moon/), and [NASA Apollo 12 mission history](https://www.nasa.gov/missions/apollo/apollo-12-the-pinpoint-mission/).
+- Surveyor 3 returned to the surface after two bounces when its main engine did not cut off as planned; the event description now reflects that. Source: [NASA Surveyor 3 mission](https://science.nasa.gov/mission/surveyor-3/).
+- Apollo 12 ALSEP was decommissioned on September 30, 1977, not 1972. The operational period is now 1969–1977. Sources: [NASA ALSEP arrays and status](https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_18-31_ALSEP_Arrays_and_Status.htm) and [NASA NTRS ALSEP history](https://ntrs.nasa.gov/api/citations/20180008613/downloads/20180008613.pdf).
+- Sojourner left the Pathfinder ramp on July 6, 1997, and operated for 83 days; the carrier landing remains a timeline event while the equipment profile has a July 6 deployment date. Source: [NASA NSSDCA Mars Pathfinder](https://nssdc.gsfc.nasa.gov/planetary/mesur.html).
+- Viking 1's final transmission on November 11 and its communications shutdown/loss on November 13 are kept as separate timeline events, consistent with NASA's history sources. Source: [NASA Viking 1 mission](https://science.nasa.gov/mission/viking-1/).
+- Opportunity's last communication on June 10, 2018 and NASA's formal mission conclusion on February 13, 2019 remain separate events. Source: [NASA JPL mission conclusion](https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end/).
+
+Mission identity, deployment and landing distinctions, image records, and the other timeline items retain their existing cited sources. No mission facts were changed outside the corrections listed above.
+
+### Data, UI, tests, and documentation delivered
+
+- Removed duplicated backward-compatibility fields; the app now reads canonical mission, equipment, and media records.
+- Expanded mission files to show mission profile, equipment dates, site and coordinates, present disposition, event timeline with source links, scientific legacy, image title/date/credit, and claim-specific references.
+- Added destination filters, archive search, result counts, empty state, keyboard-visible focus, accessible expanded states, missing-image fallback, reduced-motion behavior, and responsive mobile layouts.
+- Hardened schema checks for real calendar dates, chronological events, event types, landing/deployment semantics, media dimensions, NASA details URLs, credits, and reference URLs.
+- Updated README and page metadata. Removed unused Vite starter stylesheet and logo assets.
+- Added `npm test`, covering schema and query behavior, date and event ordering rules, payload landing/deployment semantics, NASA image links/credits, and all local WebP paths and dimensions.
+
+### Validation
+
+- `npm run lint` — passed.
+- `npm test` — passed, including canonical data checks and verification that all six local WebPs open and match recorded dimensions.
+- `npm run build` — passed; Vite generated the production bundle.
+
+The implementation milestone is complete. No image downloads were run; all existing local NASA assets validated.

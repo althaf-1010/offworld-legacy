@@ -36,8 +36,9 @@ const NASA_API = "https://images-api.nasa.gov";
  * Each entry maps an archive record to a NASA image, preferred rendition tier,
  * target filename, and display width cap.
  *
- * Selects the smallest available image rendition at or above TARGET_WIDTH,
- * falling back to the largest rendition when none meets the target.
+ * Selects the smallest search-result rendition at or above TARGET_WIDTH when
+ * NASA supplies dimensions, otherwise the largest known rendition. When the
+ * API omits all dimensions, it uses the original asset to avoid upscaling.
  */
 const ASSETS = [
   {
@@ -69,7 +70,8 @@ const WEBP_QUALITY = 82;
 /**
  * Fetch the NASA Images API search record for a given NASA ID and return
  * the best available JPEG URL whose native width is >= targetWidth.
- * Falls back to the largest available rendition if none meets the threshold.
+ * Falls back to the largest known rendition, or the original if the API
+ * supplies no rendition dimensions.
  *
  * @param {string} nasaId
  * @param {number} targetWidth
@@ -77,7 +79,7 @@ const WEBP_QUALITY = 82;
  */
 async function resolveBestRendition(nasaId, targetWidth) {
   const searchUrl = `${NASA_API}/search?nasa_id=${encodeURIComponent(nasaId)}`;
-  const res = await fetch(searchUrl);
+  const res = await fetch(searchUrl, { signal: AbortSignal.timeout(30_000) });
   if (!res.ok) throw new Error(`NASA API search failed for ${nasaId}: HTTP ${res.status}`);
   const json = await res.json();
 
@@ -106,7 +108,7 @@ async function resolveBestRendition(nasaId, targetWidth) {
   if (renditions.length === 0) {
     // No metadata — fall back to the canonical orig link from the asset endpoint
     const assetUrl = `${NASA_API}/asset/${encodeURIComponent(nasaId)}`;
-    const ar = await fetch(assetUrl);
+    const ar = await fetch(assetUrl, { signal: AbortSignal.timeout(30_000) });
     if (!ar.ok) throw new Error(`NASA API asset failed for ${nasaId}: HTTP ${ar.status}`);
     const aj = await ar.json();
     const orig = (aj?.collection?.items ?? []).find((i) => i?.href?.includes("~orig"));
@@ -132,9 +134,13 @@ async function resolveBestRendition(nasaId, targetWidth) {
  * @param {string} destPath
  */
 async function downloadFile(url, destPath) {
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
   if (!res.ok) throw new Error(`Download failed ${url}: HTTP ${res.status}`);
   if (!res.body) throw new Error(`Download returned an empty response body for ${url}`);
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.startsWith("image/")) {
+    throw new Error(`Download returned a non-image content type for ${url}: ${contentType || "missing"}`);
+  }
   const dest = createWriteStream(destPath);
   await pipeline(Readable.fromWeb(res.body), dest);
 }
@@ -188,6 +194,7 @@ async function main() {
       // 3. Convert to WebP
       console.log(`  → Converting to WebP (quality=${WEBP_QUALITY}, width≤${asset.targetWidth})...`);
       const { width, height } = await convertToWebP(tmpJpeg, tmpWebP, asset.targetWidth);
+      if (!width || !height) throw new Error("Image conversion returned invalid dimensions");
       await rename(tmpWebP, outputWebP);
       console.log(`  ✓ Saved: ${asset.outputFile} (${width}×${height} px)`);
 

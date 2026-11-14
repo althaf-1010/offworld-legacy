@@ -3,8 +3,45 @@
  */
 
 const VALID_DESTINATIONS = ["Moon", "Mars"];
+const VALID_EVENT_TYPES = [
+  "launch",
+  "landing",
+  "deployment",
+  "milestone",
+  "shutdown",
+  "contact_loss",
+  "crew_visit",
+];
 const ARCHIVE_ID_REGEX = /^M-\d{3}$/;
-const ISO_DATE_REGEX = /^\d{4}(-\d{2}(-\d{2})?)?$/;
+const ISO_DATE_REGEX = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;
+const NASA_IMAGE_URL = "https://images.nasa.gov/details/";
+
+function validDate(value) {
+  if (typeof value !== "string") return false;
+  const match = value.match(ISO_DATE_REGEX);
+  if (!match) return false;
+
+  const year = Number(match[1]);
+  const month = match[2] ? Number(match[2]) : null;
+  const day = match[3] ? Number(match[3]) : null;
+  if (year < 1) return false;
+  if (month === null) return true;
+  if (month < 1 || month > 12) return false;
+  if (day === null) return true;
+
+  const leapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const daysPerMonth = [31, leapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day >= 1 && day <= daysPerMonth[month - 1];
+}
+
+function validHttpsUrl(value) {
+  if (typeof value !== "string") return false;
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Validates a single equipment record.
@@ -15,147 +52,153 @@ const ISO_DATE_REGEX = /^\d{4}(-\d{2}(-\d{2})?)?$/;
 export function validateRecord(record) {
   const errors = [];
 
-  if (!record || typeof record !== "object") {
+  if (!record || typeof record !== "object" || Array.isArray(record)) {
     return { valid: false, errors: ["Record must be a non-null object."] };
   }
 
-  // ID validation
-  if (!record.id || !ARCHIVE_ID_REGEX.test(record.id)) {
+  if (!ARCHIVE_ID_REGEX.test(record.id ?? "")) {
     errors.push(`Invalid record ID: "${record.id}". Must match format M-001.`);
   }
-
-  // Destination validation
   if (!VALID_DESTINATIONS.includes(record.destination)) {
-    errors.push(
-      `Invalid destination: "${record.destination}". Must be one of: ${VALID_DESTINATIONS.join(", ")}.`
-    );
+    errors.push(`Invalid destination: "${record.destination}". Must be one of: ${VALID_DESTINATIONS.join(", ")}.`);
   }
 
-  // Mission & Equipment separation
-  if (!record.mission || typeof record.mission !== "object" || !record.mission.name) {
-    errors.push(`Record ${record.id}: Missing or invalid mission identity object.`);
+  if (!record.mission || typeof record.mission.name !== "string" || !record.mission.name.trim()) {
+    errors.push(`Record ${record.id}: Missing or invalid mission identity.`);
+  } else {
+    if (!record.mission.program) errors.push(`Record ${record.id}: Missing mission program.`);
+    if (!validDate(record.mission.launchDate)) errors.push(`Record ${record.id}: Invalid mission launch date.`);
   }
-  if (!record.equipment || typeof record.equipment !== "object" || !record.equipment.name) {
-    errors.push(`Record ${record.id}: Missing or invalid equipment identity object.`);
+  if (!record.equipment || typeof record.equipment.name !== "string" || !record.equipment.name.trim()) {
+    errors.push(`Record ${record.id}: Missing or invalid equipment identity.`);
   }
-
-  // Operational status & physical disposition separation
   if (!record.operationalStatus || typeof record.operationalStatus !== "string") {
     errors.push(`Record ${record.id}: Missing operationalStatus.`);
+  }
+  if (!record.operationalPeriod || typeof record.operationalPeriod !== "string") {
+    errors.push(`Record ${record.id}: Missing operationalPeriod.`);
   }
   if (!record.physicalDisposition || typeof record.physicalDisposition !== "string") {
     errors.push(`Record ${record.id}: Missing physicalDisposition.`);
   }
+  if (!record.description || typeof record.description !== "string") {
+    errors.push(`Record ${record.id}: Missing description.`);
+  }
+  if (!record.legacy || typeof record.legacy !== "string") {
+    errors.push(`Record ${record.id}: Missing legacy summary.`);
+  }
 
-  // Coordinates validation (allow null, but validate if provided)
-  if (record.location) {
+  for (const field of ["landingDate", "deploymentDate"]) {
+    if (record[field] !== null && !validDate(record[field])) {
+      errors.push(`Record ${record.id}: ${field} must be a valid ISO date or null.`);
+    }
+  }
+  if (record.landingDate && record.deploymentDate) {
+    errors.push(`Record ${record.id}: A piece of equipment cannot have both a direct landingDate and deploymentDate.`);
+  }
+
+  if (!record.location || typeof record.location.siteName !== "string" || !record.location.siteName.trim()) {
+    errors.push(`Record ${record.id}: Missing location siteName.`);
+  } else {
     const coords = record.location.coordinates;
+    if (!("coordinates" in record.location)) {
+      errors.push(`Record ${record.id}: location.coordinates must be an object or explicit null.`);
+    }
     if (coords !== null && coords !== undefined) {
-      if (typeof coords.latitude !== "number" || coords.latitude < -90 || coords.latitude > 90) {
-        errors.push(`Record ${record.id}: Latitude must be a number between -90 and 90.`);
+      if (!Number.isFinite(coords.latitude) || coords.latitude < -90 || coords.latitude > 90) {
+        errors.push(`Record ${record.id}: Latitude must be a finite number between -90 and 90.`);
       }
-      if (typeof coords.longitude !== "number" || coords.longitude < -180 || coords.longitude > 180) {
-        errors.push(`Record ${record.id}: Longitude must be a number between -180 and 180.`);
+      if (!Number.isFinite(coords.longitude) || coords.longitude < -180 || coords.longitude > 180) {
+        errors.push(`Record ${record.id}: Longitude must be a finite number between -180 and 180.`);
       }
-      if (!coords.display || typeof coords.display !== "string") {
+      if (typeof coords.display !== "string" || !coords.display.trim()) {
         errors.push(`Record ${record.id}: Coordinates must include a formatted display string.`);
       }
     }
-  } else {
-    errors.push(`Record ${record.id}: Missing location object.`);
   }
 
-  // Events validation
   if (!Array.isArray(record.events) || record.events.length === 0) {
     errors.push(`Record ${record.id}: Must contain at least one historical event milestone.`);
   } else {
+    let previousDate = "";
     record.events.forEach((event, idx) => {
-      if (!event.date || !ISO_DATE_REGEX.test(event.date)) {
-        errors.push(
-          `Record ${record.id}, Event ${idx}: Date "${event.date}" must be a valid ISO format (YYYY, YYYY-MM, or YYYY-MM-DD).`
-        );
+      if (!event || typeof event !== "object" || Array.isArray(event)) {
+        errors.push(`Record ${record.id}, Event ${idx}: Event must be an object.`);
+        return;
       }
-      if (!event.description || typeof event.description !== "string") {
+      if (!validDate(event.date)) {
+        errors.push(`Record ${record.id}, Event ${idx}: Date "${event.date}" must be a real ISO calendar date.`);
+      } else if (event.date < previousDate) {
+        errors.push(`Record ${record.id}, Event ${idx}: Events must be in chronological order.`);
+      } else {
+        previousDate = event.date;
+      }
+      if (!VALID_EVENT_TYPES.includes(event.type)) {
+        errors.push(`Record ${record.id}, Event ${idx}: Invalid event type "${event.type}".`);
+      }
+      if (typeof event.description !== "string" || !event.description.trim()) {
         errors.push(`Record ${record.id}, Event ${idx}: Missing event description.`);
       }
-      if (!event.type) {
-        errors.push(`Record ${record.id}, Event ${idx}: Missing event type.`);
+      if (event.reference && !validHttpsUrl(event.reference)) {
+        errors.push(`Record ${record.id}, Event ${idx}: Reference must be a valid HTTPS URL.`);
       }
     });
   }
 
-  // Media asset validation
+  if (Array.isArray(record.events)) {
+    if (record.mission?.launchDate && !record.events.some((event) => event?.type === "launch" && event.date === record.mission.launchDate)) {
+      errors.push(`Record ${record.id}: Mission launchDate must match a launch event.`);
+    }
+    if (record.landingDate && !record.events.some((event) => event?.type === "landing" && event.date === record.landingDate)) {
+      errors.push(`Record ${record.id}: Equipment landingDate must match a landing event.`);
+    }
+    if (record.deploymentDate && !record.events.some((event) => event?.type === "deployment" && event.date === record.deploymentDate)) {
+      errors.push(`Record ${record.id}: deploymentDate must match a deployment event.`);
+    }
+  }
+
   if (!record.media || typeof record.media !== "object") {
     errors.push(`Record ${record.id}: Missing media object.`);
   } else {
-    if (record.media.src !== null) {
-      if (typeof record.media.src !== "string" || !record.media.src.startsWith("/images/")) {
-        errors.push(`Record ${record.id}: Media src must be a valid internal path starting with /images/ or null.`);
-      }
-      if (typeof record.media.src === "string" && !record.media.src.endsWith(".webp")) {
-        errors.push(`Record ${record.id}: Media src must reference an optimized .webp asset.`);
-      }
+    const { src, width, height, nasaId, title, date, credit, sourceUrl } = record.media;
+    if (src !== null && (typeof src !== "string" || !src.startsWith("/images/") || !src.endsWith(".webp"))) {
+      errors.push(`Record ${record.id}: Media src must be a local .webp path or null.`);
     }
-    if (record.media.width !== null && (typeof record.media.width !== "number" || record.media.width <= 0)) {
-      errors.push(`Record ${record.id}: Media width must be a positive number or null.`);
+    if (src === null && (width !== null || height !== null)) {
+      errors.push(`Record ${record.id}: Unsourced media must have null dimensions.`);
     }
-    if (record.media.height !== null && (typeof record.media.height !== "number" || record.media.height <= 0)) {
-      errors.push(`Record ${record.id}: Media height must be a positive number or null.`);
+    if (src !== null && (!Number.isInteger(width) || width <= 0 || !Number.isInteger(height) || height <= 0)) {
+      errors.push(`Record ${record.id}: Sourced media must have positive integer dimensions.`);
     }
-    if (!record.media.sourceUrl || !record.media.sourceUrl.startsWith("https://")) {
-      errors.push(`Record ${record.id}: Media sourceUrl must be a secure HTTPS NASA URL.`);
+    if (typeof nasaId !== "string" || !nasaId.trim()) errors.push(`Record ${record.id}: Missing NASA image ID.`);
+    if (typeof title !== "string" || !title.trim()) errors.push(`Record ${record.id}: Missing NASA image title.`);
+    if (typeof date !== "string" || !date.trim()) errors.push(`Record ${record.id}: Missing NASA image date.`);
+    if (typeof credit !== "string" || !credit.trim()) errors.push(`Record ${record.id}: Missing image credit.`);
+    if (!validHttpsUrl(sourceUrl) || !sourceUrl.startsWith(NASA_IMAGE_URL)) {
+      errors.push(`Record ${record.id}: Media sourceUrl must be an images.nasa.gov details URL.`);
+    } else if (nasaId && !sourceUrl.slice(NASA_IMAGE_URL.length).toLowerCase().startsWith(nasaId.toLowerCase())) {
+      errors.push(`Record ${record.id}: NASA image ID does not match its source URL.`);
     }
   }
 
-  // References validation
   if (!Array.isArray(record.references) || record.references.length === 0) {
-    errors.push(`Record ${record.id}: Must contain at least one authoritative NASA reference.`);
+    errors.push(`Record ${record.id}: Must contain at least one authoritative reference.`);
   } else {
     record.references.forEach((ref, idx) => {
-      if (!ref.url || !ref.url.startsWith("https://")) {
-        errors.push(`Record ${record.id}, Ref ${idx}: Reference URL must be a secure HTTPS URL.`);
+      if (!ref || typeof ref !== "object" || Array.isArray(ref)) {
+        errors.push(`Record ${record.id}, Ref ${idx}: Reference must be an object.`);
+        return;
       }
-      if (!ref.label) {
-        errors.push(`Record ${record.id}, Ref ${idx}: Missing reference label.`);
-      }
-      if (!ref.claim) {
-        errors.push(`Record ${record.id}, Ref ${idx}: Reference must state the specific factual claim it supports.`);
-      }
+      if (!validHttpsUrl(ref.url)) errors.push(`Record ${record.id}, Ref ${idx}: Reference URL must be HTTPS.`);
+      if (!ref.label || !ref.claim) errors.push(`Record ${record.id}, Ref ${idx}: Reference needs a label and factual claim.`);
     });
   }
 
-  // Backward-compatibility properties check (needed for current App.jsx)
-  const compatKeys = [
-    "name",
-    "year",
-    "type",
-    "status",
-    "image",
-    "imageWidth",
-    "imageHeight",
-    "imageId",
-    "imageTitle",
-    "imageDate",
-    "imageSource",
-    "description",
-    "legacy",
-  ];
-  compatKeys.forEach((key) => {
-    const isNullable = ["image", "imageWidth", "imageHeight"].includes(key);
-    if (record[key] === undefined || (!isNullable && record[key] === null)) {
-      errors.push(`Record ${record.id}: Missing backward-compatibility property "${key}".`);
-    }
-  });
-
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
+  return { valid: errors.length === 0, errors };
 }
 
 /**
  * Validates an entire collection of equipment records.
- * Ensures uniqueness of IDs and collection-level invariants.
  *
  * @param {import("./types.js").EquipmentRecord[]} missions
  * @returns {{ valid: boolean, errors: string[] }}
@@ -164,64 +207,32 @@ export function validateMissions(missions) {
   const errors = [];
   const seenIds = new Set();
 
-  if (!Array.isArray(missions)) {
-    return { valid: false, errors: ["Missions collection must be an array."] };
-  }
+  if (!Array.isArray(missions)) return { valid: false, errors: ["Missions collection must be an array."] };
 
   missions.forEach((record) => {
-    if (record && record.id) {
-      if (seenIds.has(record.id)) {
-        errors.push(`Duplicate archive ID encountered: "${record.id}".`);
-      }
+    if (record?.id) {
+      if (seenIds.has(record.id)) errors.push(`Duplicate archive ID encountered: "${record.id}".`);
       seenIds.add(record.id);
     }
-    const single = validateRecord(record);
-    if (!single.valid) {
-      errors.push(...single.errors);
-    }
+    const result = validateRecord(record);
+    errors.push(...result.errors);
   });
 
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
+  return { valid: errors.length === 0, errors };
 }
 
-/**
- * Returns list of distinct destinations for filtering, prefixed with "All".
- *
- * @param {import("./types.js").EquipmentRecord[]} missions
- * @returns {string[]}
- */
+/** Returns distinct destinations, prefixed with "All". */
 export function getDestinations(missions) {
-  const set = new Set();
-  missions.forEach((m) => {
-    if (m.destination) set.add(m.destination);
-  });
-  return ["All", ...Array.from(set)];
+  return ["All", ...new Set(missions.map((mission) => mission.destination).filter(Boolean))];
 }
 
-/**
- * Filters missions by destination ("All" returns all missions).
- *
- * @param {import("./types.js").EquipmentRecord[]} missions
- * @param {string} filter
- * @returns {import("./types.js").EquipmentRecord[]}
- */
+/** Filters records by destination; "All" returns every record. */
 export function filterMissions(missions, filter) {
-  if (!filter || filter === "All") {
-    return missions;
-  }
-  return missions.filter((m) => m.destination === filter);
+  if (!filter || filter === "All") return missions;
+  return missions.filter((mission) => mission.destination === filter);
 }
 
-/**
- * Retrieves a single mission record by its archive ID.
- *
- * @param {import("./types.js").EquipmentRecord[]} missions
- * @param {string} id
- * @returns {import("./types.js").EquipmentRecord | undefined}
- */
+/** Retrieves a record by archive ID. */
 export function getMissionById(missions, id) {
-  return missions.find((m) => m.id === id);
+  return missions.find((mission) => mission.id === id);
 }

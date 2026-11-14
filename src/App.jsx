@@ -1,183 +1,157 @@
-import { useState } from "react";
-import { missions } from "./data/missions.js";
-import "./index.css";
+import { useMemo, useState } from "react";
+import { missions, destinations } from "./data/missions.js";
+import { filterMissions } from "./data/schema.js";
+import MissionCard from "./components/MissionCard.jsx";
 
 function App() {
   const [filter, setFilter] = useState("All");
+  const [query, setQuery] = useState("");
   const [selectedMission, setSelectedMission] = useState(null);
 
-  const filtered = missions.filter(
-    (mission) =>
-      filter === "All" || mission.destination === filter
-  );
+  const filteredMissions = useMemo(() => {
+    const normalizedQuery = query.trim().toLocaleLowerCase();
+    return filterMissions(missions, filter).filter((mission) => {
+      if (!normalizedQuery) return true;
+      const searchable = [
+        mission.mission.name,
+        mission.mission.program,
+        mission.equipment.name,
+        mission.equipment.type,
+        mission.equipment.designation,
+        mission.location.siteName,
+        mission.description,
+        mission.legacy,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLocaleLowerCase();
+      return searchable.includes(normalizedQuery);
+    });
+  }, [filter, query]);
 
   return (
-    <main>
-      <nav className="navbar">
-        <a className="brand" href="#">
+    <main id="top">
+      <nav className="navbar" aria-label="Main navigation">
+        <a className="brand" href="#top" aria-label="Offworld Legacy home">
           OFFWORLD<span> LEGACY</span>
         </a>
-        <span className="nav-tag">NASA SPACE APPS 2026</span>
+        <span className="nav-tag">FIELD ARCHIVE / NASA SPACE APPS</span>
       </nav>
 
-      <section className="hero">
+      <header className="hero">
         <div className="hero-content">
           <div className="eyebrow">AN ARCHIVE OF HUMAN EXPLORATION</div>
           <h1>
-            THE MISSIONS
+            THE MACHINES
             <br />
-            THAT LEFT A
+            WE LEFT
             <br />
-            <span>LEGACY.</span>
+            <span>BEHIND.</span>
           </h1>
           <p>
-            Discover the stories of NASA equipment left behind
-            on the Moon and Mars. Every machine has a story.
+            A field archive of NASA equipment that remains on the Moon and
+            Mars. Follow each machine from launch to its final resting place.
           </p>
           <a href="#missions" className="explore-btn">
-            EXPLORE THE ARCHIVE <span>↗</span>
+            EXPLORE THE ARCHIVE <span aria-hidden="true">↘</span>
           </a>
-          <div className="coordinates">
-            28°N 15°W <span>·</span> BEYOND EARTH
+          <div className="hero-note">
+            <span className="hero-note-dot" aria-hidden="true" />
+            {String(missions.length).padStart(2, "0")} OBJECTS DOCUMENTED
+            <span className="note-divider" aria-hidden="true">/</span>
+            {destinations.length - 1} WORLDS
           </div>
         </div>
 
-        <div className="hero-orbit" aria-hidden="true">
-          <div className="orbit-ring">
-            <div className="orbit-moon" />
-          </div>
-          <div className="orbit-dot" />
-          <span className="orbit-label">HUMANITY / 001</span>
+        <div className="hero-mark" aria-hidden="true">
+          <div className="hero-mark-orbit" />
+          <div className="hero-mark-world" />
+          <div className="hero-mark-label">EARTH IS JUST THE BEGINNING</div>
+          <span className="hero-mark-index">OL / 001—006</span>
         </div>
-      </section>
+        <div className="hero-bottom-line" aria-hidden="true">
+          <span>MOON</span><i /> <span>MARS</span><i /> <span>HUMAN FOOTPRINTS</span>
+        </div>
+      </header>
 
-      <section className="archive" id="missions">
+      <section className="archive" id="missions" aria-labelledby="archive-title">
         <div className="section-heading">
           <div>
             <div className="eyebrow">THE COLLECTION / 001</div>
-            <h2>Mission Archive</h2>
+            <h2 id="archive-title">Mission archive</h2>
             <p className="section-description">
-              Machines that became part of another world.
+              Six machines. Two worlds. Every record grounded in source material.
             </p>
           </div>
-          <span className="collection-count">
-            {String(filtered.length).padStart(2, "0")} RECORDS
+          <span className="collection-count" aria-live="polite">
+            {String(filteredMissions.length).padStart(2, "0")} / {String(missions.length).padStart(2, "0")} RECORDS
           </span>
         </div>
 
-        <div className="filters" aria-label="Filter missions">
-          {["All", "Moon", "Mars"].map((item) => (
-            <button
-              key={item}
-              className={filter === item ? "active" : ""}
-              onClick={() => setFilter(item)}
-              aria-pressed={filter === item}
-            >
-              {item}
-              {item === "All" && <span>{missions.length}</span>}
-            </button>
-          ))}
-        </div>
-
-        <div className="mission-grid">
-          {filtered.map((mission) => (
-            <article className="mission-card" key={mission.id}>
-              <div className="card-top">
-                <span>FILE / {mission.id}</span>
-                <span className="status">{mission.status}</span>
-              </div>
-
-              <figure className="mission-image">
-                {mission.image ? (
-                  <img
-                    src={mission.image}
-                    alt={mission.imageTitle}
-                    width={mission.imageWidth}
-                    height={mission.imageHeight}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : (
-                  <div className="image-placeholder">
-                    <span>IMAGE PENDING SOURCING</span>
-                  </div>
-                )}
-                <figcaption>
-                  NASA IMAGE / {mission.imageId}
-                </figcaption>
-              </figure>
-
-              <div className="destination">
-                {mission.destination.toUpperCase()} / {mission.type}
-              </div>
-
-              <h3>{mission.name}</h3>
-              <p className="mission-description">
-                {mission.description}
-              </p>
-
-              <div className="card-meta">
-                <span>MISSION PERIOD</span>
-                <span>{mission.year}</span>
-              </div>
-
+        <div className="archive-controls">
+          <div className="filters" role="group" aria-label="Filter by destination">
+            {destinations.map((item) => (
               <button
-                className="mission-link"
-                onClick={() =>
-                  setSelectedMission(
-                    selectedMission === mission.id ? null : mission.id
-                  )
-                }
-                aria-expanded={selectedMission === mission.id}
+                key={item}
+                className={filter === item ? "active" : ""}
+                onClick={() => setFilter(item)}
+                aria-pressed={filter === item}
               >
-                {selectedMission === mission.id
-                  ? "CLOSE MISSION FILE"
-                  : "EXPLORE MISSION FILE"}
-                <span>
-                  {selectedMission === mission.id ? "−" : "↗"}
-                </span>
+                {item}
+                {item === "All" && <span>{missions.length}</span>}
               </button>
-
-              {selectedMission === mission.id && (
-                <div className="mission-details">
-                  <div className="eyebrow">SCIENTIFIC LEGACY</div>
-                  <p>{mission.legacy}</p>
-
-                  <div className="eyebrow image-credit-heading">
-                    IMAGE RECORD
-                  </div>
-                  <p>{mission.imageTitle}</p>
-                  <p className="image-id">
-                    NASA ID: {mission.imageId}
-                  </p>
-                  <a
-                    className="source-link"
-                    href={mission.imageSource}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    VIEW NASA IMAGE RECORD ↗
-                  </a>
-                </div>
-              )}
-            </article>
-          ))}
+            ))}
+          </div>
+          <label className="search-control">
+            <span className="sr-only">Search the mission archive</span>
+            <span className="search-icon" aria-hidden="true">⌕</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search records"
+            />
+          </label>
         </div>
+
+        {filteredMissions.length > 0 ? (
+          <div className="mission-grid" aria-live="polite">
+            {filteredMissions.map((mission, index) => (
+              <MissionCard
+                key={mission.id}
+                mission={mission}
+                index={index}
+                expanded={selectedMission === mission.id}
+                onToggle={() =>
+                  setSelectedMission((selected) => selected === mission.id ? null : mission.id)
+                }
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">
+            <span className="eyebrow">NO MATCHING FILES</span>
+            <p>Try another term or destination.</p>
+            <button onClick={() => { setFilter("All"); setQuery(""); }}>RESET ARCHIVE</button>
+          </div>
+        )}
       </section>
 
-      <section className="closing">
-        <div className="eyebrow">BEYOND THE MISSION</div>
-        <h2>
+      <section className="closing" aria-labelledby="closing-title">
+        <div className="closing-coordinate">SURFACE RECORD / 001—006</div>
+        <div className="eyebrow">A RECORD OF PRESENCE</div>
+        <h2 id="closing-title">
           Not forgotten.
           <br />
-          <span>Never without a story.</span>
+          <span>Still part of the story.</span>
         </h2>
+        <p>Every object is evidence of a journey—and a beginning for the next one.</p>
       </section>
 
       <footer>
-        <span>ORBIT OF D. × OFFWORLD LEGACY</span>
-        <span>EXPLORING THE STORIES BEYOND EARTH.</span>
-        <span className="footer-year">NASA SPACE APPS 2026</span>
+        <a className="brand" href="#top">OFFWORLD<span> LEGACY</span></a>
+        <span>AN INDEPENDENT NASA MISSION ARCHIVE</span>
+        <a href="#missions" className="back-to-top">BACK TO ARCHIVE ↑</a>
       </footer>
     </main>
   );
