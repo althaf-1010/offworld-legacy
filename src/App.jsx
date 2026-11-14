@@ -1,65 +1,6 @@
 import { useState } from "react";
+import { missions } from "./data/missions.js";
 import "./index.css";
-
-const missions = [
-  {
-    id: "M-001",
-    name: "Surveyor 3",
-    destination: "Moon",
-    year: "1967",
-    type: "Lunar lander",
-    status: "Inactive",
-    image: "/images/missions/surveyor-3.webp",
-    imageWidth: 800,
-    imageHeight: 800,
-    imageId: "AS12-48-7121",
-    imageTitle: "View of Surveyor III in its crater",
-    imageDate: "November 20, 1969",
-    imageSource: "https://images.nasa.gov/details/as12-48-7121",
-    description:
-      "An uncrewed spacecraft that explored the lunar surface before Apollo 12 astronauts visited it.",
-    legacy:
-      "Surveyor 3 provided important information about the lunar surface. Apollo 12 astronauts later visited the spacecraft and retrieved components for examination on Earth.",
-  },
-  {
-    id: "M-002",
-    name: "Sojourner",
-    destination: "Mars",
-    year: "1997",
-    type: "Mars rover",
-    status: "Inactive",
-    image: "/images/missions/sojourner.webp",
-    imageWidth: 800,
-    imageHeight: 405,
-    imageId: "PIA04318",
-    imageTitle: 'Sojourner Sits Near "Rock Garden"',
-    imageDate: "NASA image archive record",
-    imageSource: "https://images.nasa.gov/details/PIA04318",
-    description:
-      "The first successful rover to operate on Mars, exploring the terrain around Pathfinder.",
-    legacy:
-      "Sojourner demonstrated the value of mobile robotic exploration and helped establish the foundations for later Mars rover missions.",
-  },
-  {
-    id: "M-003",
-    name: "Apollo ALSEP",
-    destination: "Moon",
-    year: "1969–1972",
-    type: "Science instruments",
-    status: "Inactive",
-    image: "/images/missions/apollo-alsep.webp",
-    imageWidth: 800,
-    imageHeight: 774,
-    imageId: "AS12-47-6918",
-    imageTitle: "View of part of the deployed Apollo Lunar Surface Experiment Package",
-    imageDate: "November 19, 1969",
-    imageSource: "https://images.nasa.gov/details/as12-47-6918",
-    description:
-      "A collection of scientific experiments deployed by Apollo astronauts to study the Moon.",
-    legacy:
-      "The Apollo Lunar Surface Experiments Packages collected scientific measurements that helped researchers understand the Moon's interior and environment.",
-  },
-];
 
 function App() {
   const [filter, setFilter] = useState("All");
