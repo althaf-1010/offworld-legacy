@@ -6,7 +6,7 @@
 
 /**
  * @typedef {Object} HistoricalEvent
- * @property {"launch" | "landing" | "deployment" | "milestone" | "shutdown" | "contact_loss" | "crew_visit" | "carrier_closure" | "mission_closure" | "last_data" | "subsystem_failure"} type
+ * @property {"launch" | "landing" | "deployment" | "operations_end" | "milestone" | "shutdown" | "contact_loss" | "crew_visit" | "carrier_closure" | "mission_closure" | "last_data" | "subsystem_failure"} type
  * @property {string} date - Real ISO calendar date, with no time-zone ambiguity.
  * @property {string} description
  * @property {string} [reference] - HTTPS source URL for this event.

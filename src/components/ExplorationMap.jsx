@@ -4,6 +4,16 @@ import { projectCoordinates } from "../data/coordinates.js";
 
 const MAP = { width: 720, height: 360, paddingX: 48, paddingY: 30 };
 const project = (latitude, longitude) => projectCoordinates(latitude, longitude, MAP.width, MAP.height, MAP.paddingX, MAP.paddingY);
+function markerOffsetX(sites, index) {
+  const point = project(sites[index].location.coordinates.latitude, sites[index].location.coordinates.longitude);
+  const previous = index > 0 ? project(sites[index - 1].location.coordinates.latitude, sites[index - 1].location.coordinates.longitude) : null;
+  const next = index < sites.length - 1 ? project(sites[index + 1].location.coordinates.latitude, sites[index + 1].location.coordinates.longitude) : null;
+  const nearPrevious = previous && Math.hypot(point.x - previous.x, point.y - previous.y) < 120;
+  const nearNext = next && Math.hypot(point.x - next.x, point.y - next.y) < 120;
+  if (nearPrevious) return -24;
+  if (nearNext) return 24;
+  return 0;
+}
 
 export default function ExplorationMap({ destination, onDestinationChange, onOpenRecord }) {
   const [activeId, setActiveId] = useState(null);
@@ -35,7 +45,8 @@ export default function ExplorationMap({ destination, onDestinationChange, onOpe
 
       <div className="map-layout">
         <div className={`coordinate-map ${destination.toLowerCase()}`}>
-          <svg viewBox={`0 0 ${MAP.width} ${MAP.height}`} role="group" aria-label={`${destination} equirectangular coordinate plot`}>
+          <div className="coordinate-plot">
+          <svg viewBox={`0 0 ${MAP.width} ${MAP.height}`} role="img" aria-label={`${destination} equirectangular coordinate plot`}>
             {[-60, -30, 0, 30, 60].map((latitude) => {
               const { y } = project(latitude, 0);
               return <g key={`lat-${latitude}`}><line x1={MAP.paddingX} x2={MAP.width - MAP.paddingX} y1={y} y2={y} /><text x="6" y={y + 3}>{latitude}°</text></g>;
@@ -45,16 +56,21 @@ export default function ExplorationMap({ destination, onDestinationChange, onOpe
               return <g key={`lon-${longitude}`}><line x1={x} x2={x} y1={MAP.paddingY} y2={MAP.height - MAP.paddingY} /><text x={x} y={MAP.height - 8} textAnchor="middle">{longitude}°</text></g>;
             })}
             <rect className="map-frame" x={MAP.paddingX} y={MAP.paddingY} width={MAP.width - MAP.paddingX * 2} height={MAP.height - MAP.paddingY * 2} />
-            {sites.map((site, index) => {
+            {sites.map((site) => {
               const { x, y } = project(site.location.coordinates.latitude, site.location.coordinates.longitude);
-              const nearPrevious = index > 0 && Math.hypot(x - project(sites[index - 1].location.coordinates.latitude, sites[index - 1].location.coordinates.longitude).x, y - project(sites[index - 1].location.coordinates.latitude, sites[index - 1].location.coordinates.longitude).y) < 16;
-              const offsetX = nearPrevious ? (index % 2 ? -9 : 9) : 0;
-              return <g key={site.id} className={`map-marker ${activeSite?.id === site.id ? "selected" : ""}`} role="button" tabIndex="0" aria-label={`${site.equipment.name}, ${site.location.coordinates.display}. ${site.location.coordinateMeaning}`} onClick={() => setActiveId(site.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveId(site.id); } }}>
-                {offsetX !== 0 && <line className="marker-leader" x1={x} y1={y} x2={x + offsetX} y2={y} />}
-                <circle className="marker-hit" cx={x + offsetX} cy={y} r="15" /><circle className="marker-ring" cx={x + offsetX} cy={y} r="8" /><circle className="marker-dot" cx={x + offsetX} cy={y} r="3" />
+              return <g key={site.id} className={`map-marker ${activeSite?.id === site.id ? "selected" : ""}`} aria-hidden="true">
+                <circle className="marker-ring" cx={x} cy={y} r="8" /><circle className="marker-dot" cx={x} cy={y} r="3" />
               </g>;
             })}
           </svg>
+          <div className="map-targets">
+            {sites.map((site, index) => {
+              const { x, y } = project(site.location.coordinates.latitude, site.location.coordinates.longitude);
+              const offsetX = markerOffsetX(sites, index);
+              return <button key={site.id} className="map-marker-target" type="button" style={{ left: `calc(${(x / MAP.width) * 100}% + ${offsetX}px)`, top: `${(y / MAP.height) * 100}%` }} aria-label={`${site.equipment.name}, ${site.location.coordinates.display}. ${site.location.coordinateMeaning}`} aria-pressed={activeSite?.id === site.id} onClick={() => setActiveId(site.id)} />;
+            })}
+          </div>
+          </div>
           <span className="map-caption">{destination.toUpperCase()} · EQUIRECTANGULAR COORDINATE PLOT</span>
         </div>
 

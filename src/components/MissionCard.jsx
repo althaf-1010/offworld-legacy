@@ -4,6 +4,7 @@ const EVENT_LABELS = {
   launch: "Launch",
   landing: "Landing",
   deployment: "Deployment",
+  operations_end: "Operations ended",
   milestone: "Milestone",
   shutdown: "Shutdown",
   contact_loss: "Last contact",

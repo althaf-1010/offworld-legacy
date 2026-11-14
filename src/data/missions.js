@@ -51,15 +51,22 @@ export const missions = [
         type: "landing",
         date: "1967-04-20",
         description:
-          "Soft-landed inside a lunar crater in Oceanus Procellarum after making two hops (three touchdowns) when the vernier engines failed to cut off at the planned altitude.",
-        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+          "The main engine failed to cut off at the correct moment during descent. Surveyor 3 bounced twice and settled on its third touchdown inside a lunar crater in Oceanus Procellarum.",
+        reference: "https://science.nasa.gov/mission/surveyor-3/",
       },
       {
-        type: "shutdown",
+        type: "operations_end",
+        date: "1967-05-03",
+        description:
+          "First-lunar-day operations ended. A NASA technical analysis dates the end of operations to May 3; it does not specify a precise shutdown mechanism.",
+        reference: "https://ntrs.nasa.gov/api/citations/19720019081/downloads/19720019081.pdf",
+      },
+      {
+        type: "contact_loss",
         date: "1967-05-04",
         description:
-          "The last data were received two days after local sunset on May 3. Surveyor 3 did not resume operation after the lunar night.",
-        reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+          "NASA identifies May 4 as the last contact with Surveyor 3, two days after lunar night began.",
+        reference: "https://science.nasa.gov/mission/surveyor-3/",
       },
       {
         type: "crew_visit",
@@ -123,7 +130,7 @@ export const missions = [
     operationalPeriod: "1997",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "No recovery is documented. Sojourner operated for 83 Sols until communication through the Pathfinder lander ceased on September 27, 1997; its present physical condition has not been directly confirmed.",
+      "No recovery is documented. Sojourner operated for 83 sols; its last successful data arrived on September 27, 1997, and Pathfinder later sent a signal without data on October 7. Its present physical condition has not been directly confirmed.",
     recoveryStatus: "none-reported",
     location: {
       siteName: "Ares Vallis (Carl Sagan Memorial Station)",
@@ -267,7 +274,7 @@ export const missions = [
         type: "deployment",
         date: "1969-11-19",
         description:
-          "Astronauts Alan Bean and Charles Conrad deployed the central station and scientific instruments ~180 meters northwest of the Lunar Module.",
+          "Astronauts Alan Bean and Charles Conrad deployed the ALSEP central station and scientific instruments near the Lunar Module. Published ALSEP coordinates identify the central station site; the conflicting distance estimates are omitted because their source endpoints could not be reconciled.",
         reference: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_12/experiments/alsep/",
       },
       {
@@ -314,6 +321,11 @@ export const missions = [
         label: "Lunar and Planetary Institute: Apollo 12 ALSEP Record",
         url: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_12/experiments/alsep/",
         claim: "Detailed scientific experiments list, deployment sequence, and 1977 shutdown date.",
+      },
+      {
+        label: "NASA Apollo Lunar Surface Journal: ALSEP Deployment and Apollo 12 Central Station",
+        url: "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html",
+        claim: "Describes ALSEP deployment and identifies the Apollo 12 central station coordinates and its position relative to the Lunar Module.",
       },
     ],
 
@@ -445,7 +457,7 @@ export const missions = [
     operationalPeriod: "1976–1982",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "No recovery is documented. The Chryse Planitia landing site and nearby discarded entry hardware have been imaged by MRO's HiRISE camera, but orbital images do not confirm the present condition of individual lander components.",
+      "No recovery is documented. HiRISE precisely located the Viking 1 lander in an orbital image and identified likely locations for its heat shield, backshell, and parachute; the observation does not confirm the present condition of individual lander components.",
     recoveryStatus: "none-reported",
     location: {
       siteName: "Chryse Planitia (Thomas A. Mutch Memorial Station)",
@@ -527,6 +539,11 @@ export const missions = [
         label: "NASA Images Archive Record PIA00381",
         url: "https://images.nasa.gov/details/PIA00381",
         claim: "First photograph transmitted from the surface of Mars showing Viking 1 footpad and regolith.",
+      },
+      {
+        label: "HiRISE Observation PSP_001521_2025: Viking Lander 1",
+        url: "https://hirise.lpl.arizona.edu/PSP_001521_2025",
+        claim: "Precisely locates the Viking 1 lander and identifies likely locations for the heat shield, backshell, and parachute in the orbital image.",
       },
       {
         label: "NASA JPL Viking Mission Overview",
@@ -628,7 +645,7 @@ export const missions = [
       height: 939,
       nasaId: "PIA18079",
       title: "Self-Portrait by Freshly Cleaned Opportunity Mars Rover in March 2014",
-      date: "March 24, 2014",
+      date: "March 22–24, 2014",
       credit: "NASA/JPL-Caltech/Cornell/Arizona State University",
       sourceUrl: "https://images.nasa.gov/details/PIA18079",
     },

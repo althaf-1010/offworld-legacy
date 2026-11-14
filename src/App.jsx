@@ -19,7 +19,8 @@ function App() {
     setCategory("All types");
     setQuery("");
     setSelectedMission(mission.id);
-    requestAnimationFrame(() => document.getElementById(`mission-${mission.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    const scrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    requestAnimationFrame(() => document.getElementById(`mission-${mission.id}`)?.scrollIntoView({ behavior: scrollBehavior, block: "start" }));
   }
 
   const filteredMissions = useMemo(() => {
@@ -53,6 +54,7 @@ function App() {
 
   return (
     <main id="top">
+      <a className="skip-link" href="#missions">Skip to archive content</a>
       <nav className="navbar" aria-label="Main navigation">
         <a className="brand" href="#top" aria-label="Offworld Legacy home">
           OFFWORLD<span> LEGACY</span>

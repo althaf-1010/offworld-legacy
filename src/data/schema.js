@@ -7,6 +7,7 @@ const VALID_EVENT_TYPES = [
   "launch",
   "landing",
   "deployment",
+  "operations_end",
   "milestone",
   "shutdown",
   "contact_loss",
