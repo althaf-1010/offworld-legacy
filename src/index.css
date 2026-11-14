@@ -657,7 +657,7 @@ footer {
       rgba(11, 12, 15, 0.75),
       transparent 45%
     ),
-    url("/images/missions/apollo-alsep.jpg") center 48% / cover no-repeat;
+    url("/images/hero/hero-bg.webp") center 48% / cover no-repeat;
   animation: hero-image-drift 28s ease-in-out infinite alternate;
 }
 

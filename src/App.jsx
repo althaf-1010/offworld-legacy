@@ -9,7 +9,9 @@ const missions = [
     year: "1967",
     type: "Lunar lander",
     status: "Inactive",
-    image: "/images/missions/surveyor-3.jpg",
+    image: "/images/missions/surveyor-3.webp",
+    imageWidth: 800,
+    imageHeight: 800,
     imageId: "AS12-48-7121",
     imageTitle: "View of Surveyor III in its crater",
     imageDate: "November 20, 1969",
@@ -26,7 +28,9 @@ const missions = [
     year: "1997",
     type: "Mars rover",
     status: "Inactive",
-    image: "/images/missions/sojourner.jpg",
+    image: "/images/missions/sojourner.webp",
+    imageWidth: 800,
+    imageHeight: 405,
     imageId: "PIA04318",
     imageTitle: 'Sojourner Sits Near "Rock Garden"',
     imageDate: "NASA image archive record",
@@ -43,7 +47,9 @@ const missions = [
     year: "1969–1972",
     type: "Science instruments",
     status: "Inactive",
-    image: "/images/missions/apollo-alsep.jpg",
+    image: "/images/missions/apollo-alsep.webp",
+    imageWidth: 800,
+    imageHeight: 774,
     imageId: "AS12-47-6918",
     imageTitle: "View of part of the deployed Apollo Lunar Surface Experiment Package",
     imageDate: "November 19, 1969",
@@ -144,7 +150,10 @@ function App() {
                 <img
                   src={mission.image}
                   alt={mission.imageTitle}
+                  width={mission.imageWidth}
+                  height={mission.imageHeight}
                   loading="lazy"
+                  decoding="async"
                 />
                 <figcaption>
                   NASA IMAGE / {mission.imageId}
