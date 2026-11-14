@@ -113,3 +113,13 @@ Mission identity, deployment and landing distinctions, image records, and the ot
 - `npm run build` — passed; Vite generated the production bundle.
 
 The implementation milestone is complete. No image downloads were run; all existing local NASA assets validated.
+
+### Continued primary-source fact check
+
+- Clarified Surveyor 3's touchdown wording: its failed vernier-engine cutoff caused two hops and three surface touchdowns. NASA's contemporary technical report distinguishes the number of hops from the number of touchdowns: [JPL Space Programs Summary 37-46, Vol. VI](https://ntrs.nasa.gov/citations/19670028016). NASA NSSDCA confirms the April 20 landing location and coordinates: [Surveyor missions](https://nssdc.gsfc.nasa.gov/planetary/lunar/surveyor.html).
+- Cross-checked Sojourner's July 6 UTC deployment, 83-sol operation, and Pathfinder's September 27 final data transmission against NASA/JPL mission records: [Pathfinder mission description](https://planetarydata.jpl.nasa.gov/img/w10n/mpfl-m-imp-2-edr-v1.0/mpim_0001/document/mission.htm), [NASA Pathfinder image record](https://science.nasa.gov/resource/pathfinders-rover-airbags-martian-terrain/).
+- Confirmed Apollo 12 ALSEP deployment and shutdown dates and site coordinates in NASA's ALSEP status table: [NASA ALSEP arrays and status](https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_18-31_ALSEP_Arrays_and_Status.htm).
+- Confirmed Viking 1's last transmission/interrupted communications on November 11 and the end-of-mission date reported as November 13; NASA sources use both dates for these distinct milestones: [NASA Viking 1 mission](https://science.nasa.gov/mission/viking-1/), [NASA Viking project overview](https://science.nasa.gov/mission/viking/), [NASA NSSDCA Viking overview](https://nssdc.gsfc.nasa.gov/planetary/viking.html).
+- Confirmed Opportunity's June 10, 2018 last signal, February 13, 2019 formal mission conclusion, and 45.16 km total odometry: [NASA Opportunity mission](https://science.nasa.gov/mission/mer-opportunity/). NASA's 2015 report confirms the March 24 marathon milestone: [NASA Aeronautics and Space Report](https://www.nasa.gov/wp-content/uploads/2023/01/presrep2015.pdf).
+
+These checks confirmed the corresponding record dates and claims; the only wording change in this follow-up was the Surveyor 3 hops/touchdowns distinction.

@@ -48,7 +48,7 @@ export const missions = [
         type: "landing",
         date: "1967-04-20",
         description:
-          "Soft-landed inside a lunar crater in Oceanus Procellarum after bouncing twice when the main engine failed to cut off at the planned altitude.",
+          "Soft-landed inside a lunar crater in Oceanus Procellarum after making two hops (three touchdowns) when the vernier engines failed to cut off at the planned altitude.",
         reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
       },
       {
