@@ -4,6 +4,8 @@ import { filterMissions } from "./data/schema.js";
 import MissionCard from "./components/MissionCard.jsx";
 import ExplorationMap from "./components/ExplorationMap.jsx";
 import MissionGlossary from "./components/MissionGlossary.jsx";
+import StorySpotlights from "./components/StorySpotlights.jsx";
+import LegacyOverview from "./components/LegacyOverview.jsx";
 
 function App() {
   const [filter, setFilter] = useState("All");
@@ -12,7 +14,7 @@ function App() {
   const [selectedMission, setSelectedMission] = useState(null);
   const [mapDestination, setMapDestination] = useState("Moon");
 
-  function openMappedRecord(mission) {
+  function openMissionFile(mission) {
     setFilter(mission.destination);
     setCategory("All types");
     setQuery("");
@@ -56,7 +58,7 @@ function App() {
           OFFWORLD<span> LEGACY</span>
         </a>
         <span className="nav-tag">FIELD ARCHIVE / NASA SPACE APPS</span>
-        <div className="nav-links"><a href="#missions">ARCHIVE</a><a href="#exploration">SURFACE INDEX</a></div>
+        <div className="nav-links"><a href="#stories">STORIES</a><a href="#missions">ARCHIVE</a><a href="#exploration">SURFACE INDEX</a><a href="#legacy">LEGACY</a></div>
       </nav>
 
       <header className="hero">
@@ -93,7 +95,12 @@ function App() {
         <div className="hero-bottom-line" aria-hidden="true">
           <span>MOON</span><i /> <span>MARS</span><i /> <span>HUMAN FOOTPRINTS</span>
         </div>
+        <a className="hero-image-credit" href="https://images.nasa.gov/details/as12-47-6918" target="_blank" rel="noreferrer" aria-label="Hero photograph credit: NASA Johnson Space Center, NASA image AS12-47-6918">
+          NASA/JSC · AS12-47-6918 <span aria-hidden="true">↗</span>
+        </a>
       </header>
+
+      <StorySpotlights missions={missions} onOpenStory={openMissionFile} />
 
       <section className="archive" id="missions" aria-labelledby="archive-title">
         <div className="section-heading">
@@ -163,7 +170,9 @@ function App() {
         )}
       </section>
 
-      <ExplorationMap destination={mapDestination} onDestinationChange={setMapDestination} onOpenRecord={openMappedRecord} />
+      <ExplorationMap destination={mapDestination} onDestinationChange={setMapDestination} onOpenRecord={openMissionFile} />
+
+      <LegacyOverview missions={missions} onOpenRecord={openMissionFile} />
 
       <MissionGlossary />
 

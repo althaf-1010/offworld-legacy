@@ -19,8 +19,8 @@ export default function ExplorationMap({ destination, onDestinationChange, onOpe
       <div className="section-heading exploration-heading">
         <div>
           <div className="eyebrow">SURFACE INDEX / VERIFIED SITES</div>
-          <h2 id="exploration-title">Where they remain</h2>
-          <p className="section-description">Explore the locations recorded in mission sources. This coordinate plot shows position only; it is not a terrain map.</p>
+          <h2 id="exploration-title">Recorded surface sites</h2>
+          <p className="section-description">Explore published landing, deployment, and parking coordinates. This position plot is not a terrain map, and each point states which site it represents.</p>
         </div>
         <span className="collection-count">{sites.length} PLOTTED · {unknownSites.length} UNCONFIRMED</span>
       </div>
@@ -49,7 +49,7 @@ export default function ExplorationMap({ destination, onDestinationChange, onOpe
               const { x, y } = project(site.location.coordinates.latitude, site.location.coordinates.longitude);
               const nearPrevious = index > 0 && Math.hypot(x - project(sites[index - 1].location.coordinates.latitude, sites[index - 1].location.coordinates.longitude).x, y - project(sites[index - 1].location.coordinates.latitude, sites[index - 1].location.coordinates.longitude).y) < 16;
               const offsetX = nearPrevious ? (index % 2 ? -9 : 9) : 0;
-              return <g key={site.id} className={`map-marker ${activeSite?.id === site.id ? "selected" : ""}`} role="button" tabIndex="0" aria-label={`${site.equipment.name}, ${site.location.coordinates.display}`} onClick={() => setActiveId(site.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveId(site.id); } }}>
+              return <g key={site.id} className={`map-marker ${activeSite?.id === site.id ? "selected" : ""}`} role="button" tabIndex="0" aria-label={`${site.equipment.name}, ${site.location.coordinates.display}. ${site.location.coordinateMeaning}`} onClick={() => setActiveId(site.id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveId(site.id); } }}>
                 {offsetX !== 0 && <line className="marker-leader" x1={x} y1={y} x2={x + offsetX} y2={y} />}
                 <circle className="marker-hit" cx={x + offsetX} cy={y} r="15" /><circle className="marker-ring" cx={x + offsetX} cy={y} r="8" /><circle className="marker-dot" cx={x + offsetX} cy={y} r="3" />
               </g>;
@@ -63,7 +63,12 @@ export default function ExplorationMap({ destination, onDestinationChange, onOpe
             <div className="eyebrow">SELECTED FIELD FILE / {activeSite.id}</div>
             <h3>{activeSite.equipment.name}</h3>
             <p>{activeSite.location.siteName}</p>
-            <dl><dt>Published coordinates</dt><dd>{activeSite.location.coordinates.display}</dd><dt>Mission</dt><dd>{activeSite.mission.name}</dd></dl>
+            <dl>
+              <dt>Published coordinates</dt><dd>{activeSite.location.coordinates.display}</dd>
+              <dt>Point represents</dt><dd>{activeSite.location.coordinateMeaning}</dd>
+              <dt>Coordinate source</dt><dd><a className="coordinate-source" href={activeSite.location.coordinateSource} target="_blank" rel="noreferrer">Open source record ↗</a></dd>
+              <dt>Mission</dt><dd>{activeSite.mission.name}</dd>
+            </dl>
             <button type="button" className="map-record-link" onClick={() => onOpenRecord(activeSite)}>OPEN MISSION FILE <span aria-hidden="true">↗</span></button>
           </> : <p>No verified coordinate is available for plotting.</p>}
           {unknownSites.length > 0 && <div className="unmapped-sites"><span className="eyebrow">NOT PLOTTED</span>{unknownSites.map((site) => <p key={site.id}>{site.equipment.name} — coordinates not established in this archive.</p>)}</div>}

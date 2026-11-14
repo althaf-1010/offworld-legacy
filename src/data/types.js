@@ -6,7 +6,7 @@
 
 /**
  * @typedef {Object} HistoricalEvent
- * @property {"launch" | "landing" | "deployment" | "milestone" | "shutdown" | "contact_loss" | "crew_visit"} type
+ * @property {"launch" | "landing" | "deployment" | "milestone" | "shutdown" | "contact_loss" | "crew_visit" | "carrier_closure" | "mission_closure" | "last_data" | "subsystem_failure"} type
  * @property {string} date - Real ISO calendar date, with no time-zone ambiguity.
  * @property {string} description
  * @property {string} [reference] - HTTPS source URL for this event.
@@ -65,9 +65,10 @@
  * @property {string} operationalPeriod
  * @property {string} operationalStatus
  * @property {string} physicalDisposition
+ * @property {"partial" | "none-reported"} recoveryStatus - Whether the archive documents recovery from the surface.
  * @property {string | null} landingDate - Direct landing of this equipment, else null.
  * @property {string | null} deploymentDate - Surface deployment when carried by another vehicle, else null.
- * @property {{ siteName: string, coordinates: CoordinatePoint | null }} location
+ * @property {{ siteName: string, coordinates: CoordinatePoint | null, coordinateSource: string | null, coordinateMeaning: string | null }} location
  * @property {HistoricalEvent[]} events
  * @property {string} description
  * @property {string} purpose - Plain-language reason this equipment was sent.

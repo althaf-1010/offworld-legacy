@@ -57,6 +57,10 @@ test("coordinates must be explicit: a point or null", () => {
   const invalid = structuredClone(missions[0]);
   delete invalid.location.coordinates;
   assert.match(validateMissions([invalid]).errors.join(" "), /coordinates must be an object or explicit null/);
+
+  const missingSource = structuredClone(missions[0]);
+  missingSource.location.coordinateSource = null;
+  assert.match(validateMissions([missingSource]).errors.join(" "), /coordinateSource/);
 });
 
 test("coordinate plot maps poles and prime meridian inside its frame", () => {
@@ -70,6 +74,11 @@ test("coordinate plot maps poles and prime meridian inside its frame", () => {
     assert.ok(point.x >= 48 && point.x <= 672 && point.y >= 30 && point.y <= 330, mission.id);
   }
   assert.equal(getMissionById(missions, "M-006").location.coordinates, null);
+  for (const mission of missions.filter((record) => record.location.coordinates)) {
+    assert.ok(mission.location.coordinateMeaning, mission.id);
+    assert.ok(mission.references.some((reference) => reference.url === mission.location.coordinateSource), mission.id);
+  }
+  assert.equal(getMissionById(missions, "M-006").location.coordinateSource, null);
 });
 
 test("record dates must agree with the corresponding timeline milestones", () => {
@@ -103,4 +112,37 @@ test("payload records keep carrier landings in the timeline and equipment deploy
     assert.equal(record.landingDate, null, `${id} is delivered by another landed vehicle`);
     assert.ok(record.deploymentDate, `${id} has a surface deployment date`);
   }
+});
+
+test("Sojourner data, final signal, and Pathfinder mission closure remain distinct", () => {
+  const record = getMissionById(missions, "M-002");
+  assert.ok(record.events.some((event) => event.type === "last_data" && event.date === "1997-09-27"));
+  assert.ok(record.events.some((event) => event.type === "contact_loss" && event.date === "1997-10-07"));
+  assert.ok(record.events.some((event) => event.type === "carrier_closure" && event.date === "1998-03-10"));
+});
+
+test("Viking and Opportunity separate last contact from formal mission closure", () => {
+  const viking = getMissionById(missions, "M-005");
+  assert.ok(viking.events.some((event) => event.type === "milestone" && event.date === "1982-11-11"));
+  assert.ok(viking.events.some((event) => event.type === "contact_loss" && event.date === "1982-11-13"));
+  assert.ok(viking.events.some((event) => event.type === "mission_closure" && event.date === "1983-05-21"));
+
+  const opportunity = getMissionById(missions, "M-006");
+  assert.ok(opportunity.events.some((event) => event.type === "contact_loss" && event.date === "2018-06-10"));
+  assert.ok(opportunity.events.some((event) => event.type === "mission_closure" && event.date === "2019-02-13"));
+});
+
+test("Apollo 15 television downlink failure is not classified as rover shutdown", () => {
+  const lrv = getMissionById(missions, "M-004");
+  const failure = lrv.events.find((event) => event.type === "subsystem_failure");
+  assert.equal(failure.date, "1971-08-05");
+  assert.match(failure.description, /not a failure or last communication of the LRV itself/);
+});
+
+test("the recovery overview uses explicit, conservative recovery categories", () => {
+  assert.equal(missions.filter((mission) => mission.recoveryStatus === "partial").length, 1);
+  assert.equal(missions.filter((mission) => mission.recoveryStatus === "none-reported").length, 5);
+  const invalid = structuredClone(missions[0]);
+  invalid.recoveryStatus = "intact";
+  assert.match(validateMissions([invalid]).errors.join(" "), /recoveryStatus/);
 });

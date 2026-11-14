@@ -11,6 +11,10 @@ const VALID_EVENT_TYPES = [
   "shutdown",
   "contact_loss",
   "crew_visit",
+  "carrier_closure",
+  "mission_closure",
+  "last_data",
+  "subsystem_failure",
 ];
 const ARCHIVE_ID_REGEX = /^M-\d{3}$/;
 const ISO_DATE_REGEX = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;
@@ -81,6 +85,9 @@ export function validateRecord(record) {
   if (!record.physicalDisposition || typeof record.physicalDisposition !== "string") {
     errors.push(`Record ${record.id}: Missing physicalDisposition.`);
   }
+  if (!["partial", "none-reported"].includes(record.recoveryStatus)) {
+    errors.push(`Record ${record.id}: recoveryStatus must distinguish partial recovery from no documented recovery.`);
+  }
   if (!record.description || typeof record.description !== "string") {
     errors.push(`Record ${record.id}: Missing description.`);
   }
@@ -104,6 +111,8 @@ export function validateRecord(record) {
     errors.push(`Record ${record.id}: Missing location siteName.`);
   } else {
     const coords = record.location.coordinates;
+    const coordinateSource = record.location.coordinateSource;
+    const coordinateMeaning = record.location.coordinateMeaning;
     if (!("coordinates" in record.location)) {
       errors.push(`Record ${record.id}: location.coordinates must be an object or explicit null.`);
     }
@@ -117,6 +126,16 @@ export function validateRecord(record) {
       if (typeof coords.display !== "string" || !coords.display.trim()) {
         errors.push(`Record ${record.id}: Coordinates must include a formatted display string.`);
       }
+      if (!validHttpsUrl(coordinateSource)) {
+        errors.push(`Record ${record.id}: A plotted coordinate must have an HTTPS coordinateSource.`);
+      }
+      if (typeof coordinateMeaning !== "string" || !coordinateMeaning.trim()) {
+        errors.push(`Record ${record.id}: A plotted coordinate must explain which location it represents.`);
+      }
+    } else if (coordinateSource !== null) {
+      errors.push(`Record ${record.id}: coordinateSource must be null when coordinates are unknown.`);
+    } else if (coordinateMeaning !== null) {
+      errors.push(`Record ${record.id}: coordinateMeaning must be null when coordinates are unknown.`);
     }
   }
 
@@ -195,6 +214,9 @@ export function validateRecord(record) {
       if (!validHttpsUrl(ref.url)) errors.push(`Record ${record.id}, Ref ${idx}: Reference URL must be HTTPS.`);
       if (!ref.label || !ref.claim) errors.push(`Record ${record.id}, Ref ${idx}: Reference needs a label and factual claim.`);
     });
+    if (record.location?.coordinates && !record.references.some((ref) => ref?.url === record.location.coordinateSource)) {
+      errors.push(`Record ${record.id}: coordinateSource must also appear in the record references.`);
+    }
   }
 
   return { valid: errors.length === 0, errors };

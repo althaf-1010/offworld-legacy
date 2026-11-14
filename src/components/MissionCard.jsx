@@ -8,6 +8,10 @@ const EVENT_LABELS = {
   shutdown: "Shutdown",
   contact_loss: "Last contact",
   crew_visit: "Crew visit",
+  carrier_closure: "Carrier mission closure",
+  mission_closure: "Mission formally closed",
+  last_data: "Last data received",
+  subsystem_failure: "Subsystem failure",
 };
 
 const DATE_FORMAT = new Intl.DateTimeFormat("en", {

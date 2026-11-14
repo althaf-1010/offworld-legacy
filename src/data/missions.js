@@ -29,8 +29,11 @@ export const missions = [
     operationalStatus: "Inactive",
     physicalDisposition:
       "Remains inside a 200-meter crater in Oceanus Procellarum. In November 1969, Apollo 12 astronauts inspected the lander and removed its television camera system, soil sampler scoop, cable, and sections of tubing for analysis on Earth.",
+    recoveryStatus: "partial",
     location: {
       siteName: "Oceanus Procellarum (Ocean of Storms)",
+      coordinateSource: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A",
+      coordinateMeaning: "Surveyor 3 lunar touchdown site.",
       coordinates: {
         latitude: -3.0163,
         longitude: -23.418,
@@ -120,9 +123,12 @@ export const missions = [
     operationalPeriod: "1997",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Intact on the Martian regolith in Ares Vallis near Carl Sagan Memorial Station. Operated for 83 Sols until communication through the Pathfinder lander ceased on September 27, 1997.",
+      "No recovery is documented. Sojourner operated for 83 Sols until communication through the Pathfinder lander ceased on September 27, 1997; its present physical condition has not been directly confirmed.",
+    recoveryStatus: "none-reported",
     location: {
       siteName: "Ares Vallis (Carl Sagan Memorial Station)",
+      coordinateSource: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+      coordinateMeaning: "Pathfinder carrier landing site and Sojourner deployment area; the rover's final position is not plotted precisely.",
       coordinates: {
         latitude: 19.33,
         longitude: -33.55,
@@ -151,11 +157,25 @@ export const missions = [
         reference: "https://mars.nasa.gov/mars-exploration/missions/pathfinder/",
       },
       {
-        type: "contact_loss",
+        type: "last_data",
         date: "1997-09-27",
         description:
-          "Final successful communications session received through the Pathfinder base station on Sol 83.",
+          "Final successful data transmission from the Pathfinder lander and Sojourner rover on Sol 83. NASA notes that Sojourner was still functioning when the lander stopped communicating.",
         reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1996-068A",
+      },
+      {
+        type: "contact_loss",
+        date: "1997-10-07",
+        description:
+          "A final signal arrived from Pathfinder without spacecraft data. The last successful data session was September 27; recovery attempts continued for months.",
+        reference: "https://mars.nasa.gov/internal_resources/815/",
+      },
+      {
+        type: "carrier_closure",
+        date: "1998-03-10",
+        description:
+          "NASA officially concluded the Mars Pathfinder mission after recovery efforts failed. This administrative closure came after Sojourner's surface operations and Pathfinder's last successful data transmission.",
+        reference: "https://science.nasa.gov/resource/the-first-imp-image-from-mars/",
       },
     ],
     description:
@@ -190,6 +210,11 @@ export const missions = [
         url: "https://mars.nasa.gov/mars-exploration/missions/pathfinder/",
         claim: "Mission summary, 83-Sol operational longevity, and science objectives.",
       },
+      {
+        label: "NASA Science: Final Pathfinder Transmission and Mission Conclusion",
+        url: "https://science.nasa.gov/resource/the-first-imp-image-from-mars/",
+        claim: "Final data transmission on September 27, 1997; a final signal without data on October 7; and formal mission termination on March 10, 1998.",
+      },
     ],
 
   },
@@ -212,9 +237,12 @@ export const missions = [
     operationalPeriod: "1969–1977",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Central station, SNAP-27 plutonium RTG power unit, passive seismometer, and instrument sensors remain deployed in place on the lunar regolith in Oceanus Procellarum. Science transmission was commanded off on September 30, 1977 due to budget constraints.",
+      "No recovery from the lunar surface is documented. The central station, SNAP-27 power unit, passive seismometer, and sensors were left at Oceanus Procellarum when transmissions were commanded off on September 30, 1977; their present condition has not been directly inspected.",
+    recoveryStatus: "none-reported",
     location: {
       siteName: "Oceanus Procellarum (Apollo 12 landing site)",
+      coordinateSource: "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_18-31_ALSEP_Arrays_and_Status.htm",
+      coordinateMeaning: "Published ALSEP instrument deployment site.",
       coordinates: {
         latitude: -3.0094,
         longitude: -23.4246,
@@ -278,6 +306,11 @@ export const missions = [
         claim: "Archival photograph of deployed Apollo 12 ALSEP central station and instruments.",
       },
       {
+        label: "NASA ALSEP Arrays and Status: Apollo 12 Deployment Coordinates",
+        url: "https://www.nasa.gov/wp-content/uploads/static/history/SP-4029/Apollo_18-31_ALSEP_Arrays_and_Status.htm",
+        claim: "Published latitude and longitude of the Apollo 12 ALSEP deployment site.",
+      },
+      {
         label: "Lunar and Planetary Institute: Apollo 12 ALSEP Record",
         url: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_12/experiments/alsep/",
         claim: "Detailed scientific experiments list, deployment sequence, and 1977 shutdown date.",
@@ -304,9 +337,12 @@ export const missions = [
     operationalPeriod: "1971",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Parked at the Hadley-Apennine VIP site approximately 160 meters east of the Falcon Lunar Module descent stage. The rover chassis and wheels remain in place on the lunar regolith along with the attached Lunar Communications Relay Unit (LCRU) and Ground-Controlled Television Assembly (GCTA). Decades later, the resting site was resolved from lunar orbit by the Lunar Reconnaissance Orbiter Camera (LROC).",
+      "No recovery is documented. LRV-1 was parked at the Hadley-Apennine VIP site about 160 meters east of Falcon's descent stage. LROC imagery identifies the resting site from orbit; it does not establish the present condition of every rover component.",
+    recoveryStatus: "none-reported",
     location: {
       siteName: "Hadley-Apennine (VIP site, east of Falcon LM descent stage)",
+      coordinateSource: "https://www.lroc.asu.edu/featured_sites/view_site/4",
+      coordinateMeaning: "Lunar Roving Vehicle final VIP-site parking position from LROC site data.",
       coordinates: {
         latitude: 26.13174,
         longitude: 3.63803,
@@ -343,7 +379,7 @@ export const missions = [
         reference: "https://www.lpi.usra.edu/lunar/missions/apollo/apollo_15/surface_opp/",
       },
       {
-        type: "contact_loss",
+        type: "subsystem_failure",
         date: "1971-08-05",
         description:
           "Failure of the LCRU/GCTA television communications system (not a failure or last communication of the LRV itself). NASA Apollo 15 mission commentary dated August 6, 1971, reports that the LCRU was switched on the previous day (inferred August 5, 1971) and operated for approximately 13 minutes before its downlink failed; the cause remains undetermined, with an unconfirmed circuit-breaker problem suggested.",
@@ -409,9 +445,12 @@ export const missions = [
     operationalPeriod: "1976–1982",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Intact on the volcanic plains of Chryse Planitia. The three-legged titanium body, radioisotope thermoelectric generators (RTGs), inactive soil sampler arm, meteorology boom, and steerable antennas remain on the Martian surface; the landing site and discarded entry hardware were imaged from orbit by MRO's HiRISE camera.",
+      "No recovery is documented. The Chryse Planitia landing site and nearby discarded entry hardware have been imaged by MRO's HiRISE camera, but orbital images do not confirm the present condition of individual lander components.",
+    recoveryStatus: "none-reported",
     location: {
       siteName: "Chryse Planitia (Thomas A. Mutch Memorial Station)",
+      coordinateSource: "https://astrogeology.usgs.gov/search/map/Mars/Viking/Viking1_Lander_Coordinates",
+      coordinateMeaning: "Viking 1 Lander touchdown site; both planetocentric and planetographic values are given.",
       coordinates: {
         latitude: 22.27,
         longitude: -48.00,
@@ -455,11 +494,11 @@ export const missions = [
         reference: "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-075C",
       },
       {
-        type: "shutdown",
+        type: "mission_closure",
         date: "1983-05-21",
         description:
           "Formal mission closure officially declared by NASA after six months of unsuccessful recovery attempts, marking administrative closure rather than the lander's operational end.",
-        reference: "https://mars.nasa.gov/missions/viking/",
+        reference: "https://ntrs.nasa.gov/api/citations/20010071698/downloads/20010071698.pdf",
       },
     ],
     description:
@@ -495,6 +534,11 @@ export const missions = [
         claim: "Mission parameters, 2245-Sol operational duration, and communications termination history.",
       },
       {
+        label: "NASA Deep Space Chronicle: Viking 1 Mission Closure",
+        url: "https://ntrs.nasa.gov/api/citations/20010071698/downloads/20010071698.pdf",
+        claim: "Last transmission on November 11, 1982; accidental shutdown on November 13; and overall mission closure on May 21, 1983.",
+      },
+      {
         label: "USGS Astrogeology Science Center: Mars Landing Site Coordinates",
         url: "https://astrogeology.usgs.gov/search/map/Mars/Viking/Viking1_Lander_Coordinates",
         claim: "Explicit distinction between planetocentric (22.27° N, 48.00° W) and planetographic (22.48° N, 47.97° W) coordinate reference frames.",
@@ -521,9 +565,12 @@ export const missions = [
     operationalPeriod: "2004–2018",
     operationalStatus: "Inactive",
     physicalDisposition:
-      "Intact on the western slope of Perseverance Valley on the rim of Endeavour Crater. Opportunity arrived on Mars encased within the MER-B entry and lander system (Challenger Memorial Station) and was deployed after touchdown. At the end of its mission, its solar arrays became coated with atmospheric dust, while its Pancam mast and robotic arm remained deployed.",
+      "No recovery is documented. Opportunity's last known location was the western slope of Perseverance Valley on Endeavour Crater's rim. Dust covered its solar arrays during the 2018 storm; the rover's present physical condition has not been directly confirmed.",
+    recoveryStatus: "none-reported",
     location: {
       siteName: "Perseverance Valley, western rim of Endeavour Crater (Final Location)",
+      coordinateSource: null,
+      coordinateMeaning: null,
       coordinates: null,
     },
     events: [
@@ -563,7 +610,7 @@ export const missions = [
         reference: "https://mars.nasa.gov/news/8413/nasas-opportunity-rover-mission-on-mars-comes-to-end/",
       },
       {
-        type: "shutdown",
+        type: "mission_closure",
         date: "2019-02-13",
         description:
           "NASA officially declared formal mission termination at JPL after more than a thousand recovery commands sent since June 2018 went unanswered.",
